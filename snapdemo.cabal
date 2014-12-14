@@ -1,4 +1,4 @@
-Name:                snapdemo
+Name:                mumuki-hspec-server
 Version:             0.1
 Synopsis:            Project Synopsis Here
 Description:         Project Description Here
@@ -10,7 +10,7 @@ Category:            Web
 Build-type:          Simple
 Cabal-version:       >=1.2
 
-Executable snapdemo
+Executable mumuki-hspec-server
   hs-source-dirs: src
   main-is: Main.hs
 
