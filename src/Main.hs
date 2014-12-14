@@ -1,6 +1,8 @@
-{-# LANGUAGE OverloadedStrings #-}
+{-# LANGUAGE OverloadedStrings, DeriveGeneric #-}
 module Main where
 
+import           Data.Aeson
+import           Data.Text
 import           Control.Applicative
 import           Snap.Core
 import           Snap.Util.FileServe
@@ -9,10 +11,17 @@ import           Control.Monad.Trans (liftIO)
 import qualified Data.ByteString.Lazy as L
 import           Data.ByteString.Char8 (pack)
 import           System.Process (readProcessWithExitCode)
+import           System.Exit
 import           System.IO (hClose)
 import           System.Directory (removeFile)
 import           System.IO.Temp (openTempFile)
 import           System.Directory (getTemporaryDirectory)
+import           GHC.Generics
+
+
+data TestResult =  TestResult { exit  :: Int, out :: String }
+                    deriving (Show, Generic)
+instance ToJSON TestResult
 
 main :: IO ()
 main = quickHttpServe site
@@ -24,15 +33,18 @@ testHandler :: Snap ()
 testHandler = do
     content <- readRequestBody 102400
     result <- liftIO . runTest  $ content
-    writeBS . pack $ result
+    writeLBS . encode $ result
 
-runTest :: L.ByteString -> IO String
+runTest :: L.ByteString -> IO TestResult
 runTest content = do
   base <- getTemporaryDirectory
   (path, fileHandle) <- openTempFile base "compilation"
   L.hPutStr fileHandle content
   hClose fileHandle
-  (_, out, err) <- readProcessWithExitCode "runhaskell" [path] ""
+  (exit, out, err) <- readProcessWithExitCode "runhaskell" [path] ""
   removeFile path
-  return (out ++ err)
+  return $ TestResult (exitCode exit) (out ++ err)
 
+
+exitCode (ExitFailure n) = n
+exitCode _               = 0
