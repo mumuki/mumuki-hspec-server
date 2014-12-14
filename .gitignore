@@ -1,0 +1,3 @@
+dist
+.cabal-sandbox
+dist\n.cabal-sandbox\ncabal.sandbox.config
