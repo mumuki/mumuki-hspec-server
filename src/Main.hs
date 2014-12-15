@@ -41,7 +41,9 @@ runTest content = do
   (path, fileHandle) <- openTempFile base "compilation"
   L.hPutStr fileHandle content
   hClose fileHandle
-  (exit, out, err) <- readProcessWithExitCode "runhaskell" [path] ""
+  (exit, out, err) <- readProcessWithExitCode "runhaskell" [
+    "-package-conf=/app/.cabal-sandbox/x86_64-linux-ghc-7.8.3-packages.conf.d",
+    path ] ""
   removeFile path
   return $ TestResult (exitCode exit) (out ++ err)
 
