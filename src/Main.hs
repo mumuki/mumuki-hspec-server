@@ -27,7 +27,9 @@ main :: IO ()
 main = quickHttpServe site
 
 site :: Snap ()
-site = route [ ("test", testHandler) ]
+site = method POST (
+          route [ ("test", testHandler) ]) <|>
+       method GET  (redirect "http://mumuki.herokuapp.com")
 
 testHandler :: Snap ()
 testHandler = do
