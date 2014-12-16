@@ -2,6 +2,7 @@
 
 module TestRunner (TestResult, runTest) where
 
+import qualified Config
 import           Data.Aeson
 import qualified Data.ByteString.Lazy as L
 import           System.Process (readProcessWithExitCode)
@@ -23,12 +24,12 @@ runTest content = do
   (path, fileHandle) <- openTempFile base "compilation"
   L.hPutStr fileHandle content
   hClose fileHandle
-  (exit, out, err) <- readProcessWithExitCode "runhaskell" [
-    "-package-conf=/app/.cabal-sandbox/x86_64-linux-ghc-7.8.3-packages.conf.d",
-    path ] ""
+  (exit, out, err) <- runCommand path
   removeFile path
   return $ TestResult (exitCode exit) (out ++ err)
 
+runCommand path =
+  readProcessWithExitCode "runhaskell"  (Config.runhaskellArgs ++ [ path ]) ""
 
 exitCode (ExitFailure n) = n
 exitCode _               = 0

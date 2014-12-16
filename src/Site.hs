@@ -2,6 +2,7 @@
 
 module Site (site) where
 
+import qualified Config
 import           Data.Aeson
 import           Control.Applicative
 import           Snap.Core
@@ -11,7 +12,7 @@ import           TestRunner
 site :: Snap ()
 site = method POST (
           route [ ("test", testHandler) ]) <|>
-       method GET  (redirect "http://mumuki.herokuapp.com")
+       method GET  (redirect Config.mumukiUrl)
 
 testHandler :: Snap ()
 testHandler = do
