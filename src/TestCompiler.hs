@@ -2,7 +2,9 @@ module TestCompiler (compile) where
 
   compile :: String -> String -> String
   compile testSrc contentSrc =
-     "import Test.Hspec\nimport Test.QuickCheck\n" ++
-     contentSrc ++
-     "main :: IO ()\nmain = hspec $ do\n\t" ++
+     "import Test.Hspec\n\
+     \import Test.QuickCheck\n" ++
+     contentSrc ++ "\n\
+     \main :: IO ()\n\
+     \main = hspec $ do\n" ++
       testSrc
