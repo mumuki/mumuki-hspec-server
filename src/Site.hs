@@ -8,6 +8,7 @@ import           Control.Applicative
 import           Snap.Core
 import           Control.Monad.Trans (liftIO)
 import           TestRunner
+import           TestCompiler
 
 site :: Snap ()
 site = method POST (
