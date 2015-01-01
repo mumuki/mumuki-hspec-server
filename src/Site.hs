@@ -1,4 +1,4 @@
-{-# LANGUAGE OverloadedStrings, DeriveGeneric #-}
+{-# LANGUAGE OverloadedStrings #-}
 
 module Site (site) where
 
@@ -10,14 +10,7 @@ import           Control.Monad.Trans (liftIO)
 import           TestRunner
 import qualified TestCompiler
 import qualified Data.ByteString.Lazy.Char8 as LBS
-import           GHC.Generics
-
-
-data TestRunRequest = TestRunRequest {
-    content  :: String,
-    test     :: String } deriving (Show, Generic)
-
-instance FromJSON TestRunRequest
+import qualified Protocol as P
 
 site :: Snap ()
 site = method POST (
@@ -30,5 +23,5 @@ testHandler = do
     result  <- liftIO . runTest . LBS.pack . compile $ request
     writeLBS . encode $ result
 
-compile :: TestRunRequest -> String
-compile request = TestCompiler.compile (test request) (content request)
+compile :: P.Request -> String
+compile request = TestCompiler.compile (P.test request) (P.content request)
