@@ -2,8 +2,6 @@ module TestRunnerSpec (spec) where
 
 import           Test.Hspec
 import           TestRunner (runTest)
-import           Control.Monad.Trans (liftIO)
-
 
 sampleOkCompilation = "import Test.Hspec\n\
                        \import Test.QuickCheck\n\
@@ -26,9 +24,7 @@ spec :: Spec
 spec = do
   describe "TestRunnerSpec.runTest" $ do
     it "passes when test is ok" $ do
-      (exit, _) <- liftIO $ runTest sampleOkCompilation
-      exit `shouldBe` "passed"
+      (fmap fst . runTest) sampleOkCompilation `shouldReturn` "passed"
 
     it "failes when test is not ok" $ do
-      (exit, _) <- liftIO $ runTest sampleNotOkCompilation
-      exit `shouldBe` "failed"
+      (fmap fst. runTest) sampleNotOkCompilation `shouldReturn` "failed"
