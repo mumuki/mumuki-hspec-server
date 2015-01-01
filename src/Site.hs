@@ -1,4 +1,4 @@
-{-# LANGUAGE OverloadedStrings #-}
+{-# LANGUAGE OverloadedStrings, DeriveGeneric #-}
 
 module Site (site) where
 
@@ -10,16 +10,14 @@ import           Control.Monad.Trans (liftIO)
 import           TestRunner
 import qualified TestCompiler
 import qualified Data.ByteString.Lazy.Char8 as LBS
+import           GHC.Generics
+
 
 data TestRunRequest = TestRunRequest {
     content  :: String,
-    test     :: String } deriving (Show)
+    test     :: String } deriving (Show, Generic)
 
-instance FromJSON TestRunRequest where
-  parseJSON (Object v) =
-    TestRunRequest <$>
-    (v .: "content") <*>
-    (v .: "test")
+instance FromJSON TestRunRequest
 
 site :: Snap ()
 site = method POST (
