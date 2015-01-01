@@ -3,24 +3,22 @@
 module TestRunner (runTest) where
 
 import qualified Config
-import qualified Data.ByteString.Lazy as L
 import           System.Process (readProcessWithExitCode)
 import           System.Exit
-import           System.IO (hClose)
+import           System.IO (hClose, hPutStr)
 import           System.Directory (removeFile)
 import           System.IO.Temp (openTempFile)
 import           System.Directory (getTemporaryDirectory)
-import qualified Protocol
 
-runTest :: L.ByteString -> IO Protocol.Response
+runTest :: String -> IO (String, String)
 runTest content = do
   base <- getTemporaryDirectory
   (path, fileHandle) <- openTempFile base "compilation"
-  L.hPutStr fileHandle content
+  hPutStr fileHandle content
   hClose fileHandle
   (exit, out, err) <- runCommand path
   removeFile path
-  return $ Protocol.Response (exitCode exit) (out ++ err)
+  return (exitCode exit , out ++ err)
 
 runCommand :: String -> IO (ExitCode, String, String)
 runCommand path =

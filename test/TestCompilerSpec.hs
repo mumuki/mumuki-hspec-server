@@ -6,13 +6,13 @@ import           TestCompiler (compile)
 main :: IO ()
 main = hspec spec
 
-sample_content = "x = True"
+sampleContent = "x = True"
 
-sample_test = "describe \"x\" $ do\n\
+sampleTest = "describe \"x\" $ do\n\
               \  it \"should be True\" $ do\n\
               \    x `shouldBe` True"
 
-expected_compilation = "import Test.Hspec\n\
+expectedCompilation = "import Test.Hspec\n\
                        \import Test.QuickCheck\n\
                        \x = True\n\
                        \main :: IO ()\n\
@@ -23,4 +23,4 @@ expected_compilation = "import Test.Hspec\n\
 spec = do
   describe "TestCompiler.compile" $ do
     it "joins test and content" $ do
-      compile sample_test sample_content `shouldBe` expected_compilation
+      compile sampleTest sampleContent `shouldBe` expectedCompilation

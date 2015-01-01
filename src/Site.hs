@@ -7,10 +7,9 @@ import           Data.Aeson
 import           Control.Applicative
 import           Snap.Core
 import           Control.Monad.Trans (liftIO)
-import           TestRunner
-import qualified TestCompiler
-import qualified Data.ByteString.Lazy.Char8 as LBS
+import qualified Data.Text as T
 import qualified Protocol as P
+import           TestServer
 
 site :: Snap ()
 site = method POST (
@@ -20,8 +19,6 @@ site = method POST (
 testHandler :: Snap ()
 testHandler = do
     Just request <-  decode <$> readRequestBody 102400
-    result  <- liftIO . runTest . LBS.pack . compile $ request
+    result  <- liftIO . TestServer.process $ request
     writeLBS . encode $ result
 
-compile :: P.Request -> String
-compile request = TestCompiler.compile (P.test request) (P.content request)
