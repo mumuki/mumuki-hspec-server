@@ -13,7 +13,7 @@ import           System.IO.Temp (openTempFile)
 import           System.Directory (getTemporaryDirectory)
 import           GHC.Generics
 
-data TestResult =  TestResult { exit  :: Int, out :: String }
+data TestResult =  TestResult { exit  :: String, out :: String }
                     deriving (Show, Generic)
 instance ToJSON TestResult
 
@@ -31,5 +31,5 @@ runTest content = do
 runCommand path =
   readProcessWithExitCode "runhaskell"  (Config.runhaskellArgs ++ [ path ]) ""
 
-exitCode (ExitFailure n) = n
-exitCode _               = 0
+exitCode (ExitFailure n) = "failed"
+exitCode _               = "passed"
