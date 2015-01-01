@@ -2,6 +2,7 @@ module TestRunnerSpec (spec) where
 
 import           Test.Hspec
 import           TestRunner (runTest)
+import           Data.List (isInfixOf)
 
 sampleOkCompilation = "import Test.Hspec\n\
                        \import Test.QuickCheck\n\
@@ -23,8 +24,16 @@ sampleNotOkCompilation = "import Test.Hspec\n\
 spec :: Spec
 spec = do
   describe "TestRunnerSpec.runTest" $ do
-    it "passes when test is ok" $ do
-      (fmap fst . runTest) sampleOkCompilation `shouldReturn` "passed"
 
-    it "failes when test is not ok" $ do
+    context "when test is ok" $ do
+      let result = runTest sampleOkCompilation
+
+      it "passes" $ do
+        (fmap fst result) `shouldReturn` "passed"
+
+      it "outputs proper message" $ do
+        (_, out) <- result
+        out `shouldSatisfy` (isInfixOf "1 example, 0 failures")
+
+    it "fails when test is not ok" $ do
       (fmap fst. runTest) sampleNotOkCompilation `shouldReturn` "failed"
