@@ -7,7 +7,7 @@ import           Data.Aeson
 import           Control.Applicative
 import           Snap.Core
 import           Control.Monad.Trans (liftIO)
-import           TestRunner
+import           TestServer
 
 site :: Snap ()
 site = method POST (
@@ -16,7 +16,7 @@ site = method POST (
 
 testHandler :: Snap ()
 testHandler = do
-    content <- readRequestBody 102400
-    result <- liftIO . runTest  $ content
+    Just request <-  decode <$> readRequestBody 102400
+    result  <- liftIO . TestServer.process $ request
     writeLBS . encode $ result
 
