@@ -1,5 +1,3 @@
-{-# LANGUAGE OverloadedStrings #-}
-
 module TestRunner (runTest) where
 
 import qualified Config
@@ -24,5 +22,6 @@ runCommand :: String -> IO (ExitCode, String, String)
 runCommand path =
   readProcessWithExitCode "runhaskell"  (Config.runhaskellArgs ++ [ path ]) ""
 
+exitCode :: ExitCode -> String
 exitCode (ExitFailure _) = "failed"
 exitCode _               = "passed"

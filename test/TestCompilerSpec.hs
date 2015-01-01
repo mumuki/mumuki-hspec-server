@@ -1,10 +1,7 @@
-module TestCompilerSpec (main, spec) where
+module TestCompilerSpec (spec) where
 
 import           Test.Hspec
 import           TestCompiler (compile)
-
-main :: IO ()
-main = hspec spec
 
 sampleContent = "x = True"
 
@@ -20,6 +17,7 @@ expectedCompilation = "import Test.Hspec\n\
                        \describe \"x\" $ do\n\
                        \  it \"should be True\" $ do\n\
                        \    x `shouldBe` True"
+spec :: Spec
 spec = do
   describe "TestCompiler.compile" $ do
     it "joins test and content" $ do

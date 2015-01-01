@@ -7,8 +7,6 @@ import           Data.Aeson
 import           Control.Applicative
 import           Snap.Core
 import           Control.Monad.Trans (liftIO)
-import qualified Data.Text as T
-import qualified Protocol as P
 import           TestServer
 
 site :: Snap ()
