@@ -11,7 +11,9 @@ Build-type:          Simple
 Cabal-version:       >=1.8
 
 Executable mumuki-hspec-server
-  hs-source-dirs: src
+  hs-source-dirs:
+    src
+    config/prod
   main-is: Main.hs
 
   Build-depends:
@@ -43,6 +45,7 @@ library
       -fno-warn-missing-signatures
   hs-source-dirs:
       src
+      config/test
   exposed-modules:
       TestRunner
       TestCompiler
