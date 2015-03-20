@@ -38,6 +38,6 @@ cabal run
 **Notice**: you may want to change the ```prod/config/Config``` file:
 
 ```haskell
---runhaskellArgs = ["-package-conf=/app/.cabal-sandbox/x86_64-linux-ghc-7.8.3-packages.conf.d"]
+--runhaskellArgs = ["-package-db=/app/.cabal-sandbox/x86_64-linux-ghc-7.8.3-packages.conf.d"]
 runhaskellArgs = []
 ```
