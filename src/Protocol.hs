@@ -7,7 +7,8 @@ import           Data.Aeson
 
 data Request = Request {
     content  :: String,
-    test     :: String
+    test     :: String,
+    extra    :: String
   } deriving (Show, Generic)
 
 data Response =  Response {

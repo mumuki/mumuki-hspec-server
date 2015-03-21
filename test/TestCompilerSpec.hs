@@ -11,7 +11,7 @@ sampleTest = "describe \"x\" $ do\n\
 
 expectedCompilation = "import Test.Hspec\n\
                        \import Test.QuickCheck\n\
-                       \x = True\n\
+                       \x = True\n\n\
                        \main :: IO ()\n\
                        \main = hspec $ do\n\
                        \describe \"x\" $ do\n\
@@ -21,4 +21,4 @@ spec :: Spec
 spec = do
   describe "TestCompiler.compile" $ do
     it "joins test and content" $ do
-      compile sampleTest sampleContent `shouldBe` expectedCompilation
+      compile sampleTest "" sampleContent `shouldBe` expectedCompilation
