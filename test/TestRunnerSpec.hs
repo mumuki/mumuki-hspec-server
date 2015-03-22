@@ -21,6 +21,7 @@ sampleNotOkCompilation = "import Test.Hspec\n\
                         \describe \"x\" $ do\n\
                         \  it \"should be True\" $ do\n\
                         \    x `shouldBe` True"
+
 spec :: Spec
 spec = do
   describe "TestRunnerSpec.runTest" $ do
@@ -37,3 +38,4 @@ spec = do
 
     it "fails when test is not ok" $ do
       (fmap fst. runTest) sampleNotOkCompilation `shouldReturn` "failed"
+

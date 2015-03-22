@@ -28,7 +28,8 @@ Executable mumuki-hspec-server
     directory                 >= 1     && < 2,
     temporary                 >= 1.1   && < 1.2,
     process                   >= 1.1   && < 1.4,
-    hspec                     >= 2     && < 3
+    hspec                     >= 2     && < 3,
+    async                     >= 2     && < 3
 
   ghc-options:
     -threaded
@@ -61,7 +62,8 @@ library
     directory                 >= 1     && < 2,
     temporary                 >= 1.1   && < 1.2,
     process                   >= 1.1   && < 1.4,
-    hspec                     >= 2     && < 3
+    hspec                     >= 2     && < 3,
+    async                     >= 2     && < 3
 
 test-suite spec
   type:
@@ -86,4 +88,5 @@ test-suite spec
     temporary                 >= 1.1   && < 1.2,
     process                   >= 1.1   && < 1.4,
     hspec                     >= 2     && < 3,
+    async                     >= 2     && < 3,
     mumuki-hspec-server
