@@ -29,7 +29,8 @@ Executable mumuki-hspec-server
     temporary                 >= 1.1   && < 1.2,
     process                   >= 1.1   && < 1.4,
     hspec                     >= 2     && < 3,
-    async                     >= 2     && < 3
+    async                     >= 2     && < 3,
+    hs-inspector              >= 0     && < 1
 
   ghc-options:
     -threaded
@@ -50,6 +51,8 @@ library
   exposed-modules:
       TestRunner
       TestCompiler
+      ExpectationsRunner
+      Protocol
   build-depends:
     base                      >= 4     && < 5,
     bytestring                >= 0.9.1 && < 0.11,
@@ -63,7 +66,9 @@ library
     temporary                 >= 1.1   && < 1.2,
     process                   >= 1.1   && < 1.4,
     hspec                     >= 2     && < 3,
-    async                     >= 2     && < 3
+    async                     >= 2     && < 3,
+    hs-inspector              >= 0     && < 1
+
 
 test-suite spec
   type:
@@ -89,4 +94,5 @@ test-suite spec
     process                   >= 1.1   && < 1.4,
     hspec                     >= 2     && < 3,
     async                     >= 2     && < 3,
+    hs-inspector              >= 0     && < 1,
     mumuki-hspec-server
