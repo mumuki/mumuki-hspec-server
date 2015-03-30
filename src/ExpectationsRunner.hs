@@ -1,7 +1,7 @@
 module ExpectationsRunner where
 
 import qualified Protocol as P
-import           Inspector
+import           Language.Haskell.Inspector
 
 runExpectations :: [P.Expectation] ->  String -> [P.ExpectationResult]
 runExpectations es content = map run es

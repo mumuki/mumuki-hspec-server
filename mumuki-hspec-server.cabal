@@ -41,6 +41,9 @@ Executable mumuki-hspec-server
     -fno-warn-unused-do-bind
     -fno-warn-missing-signatures
 
+  build-tools: 
+    happy
+
 library
   ghc-options:
       -Wall
@@ -68,7 +71,9 @@ library
     hspec                     >= 2     && < 3,
     async                     >= 2     && < 3,
     hs-inspector              >= 0     && < 1
-
+  
+  build-tools:
+    happy
 
 test-suite spec
   type:
@@ -96,3 +101,6 @@ test-suite spec
     async                     >= 2     && < 3,
     hs-inspector              >= 0     && < 1,
     mumuki-hspec-server
+
+  build-tools:
+    happy
