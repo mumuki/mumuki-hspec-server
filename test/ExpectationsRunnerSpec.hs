@@ -15,7 +15,7 @@ spec = do
     let xHasGuards      = Expectation "x" "HasGuards"
     let xHasNotGuards   = Expectation "x" "Not:HasGuards"
     let xHasUsageOfM    = Expectation "x" "HasUsage:m"
-
+    let xHasUsageOfG    = Expectation "x" "HasUsage:g"
 
     it "evals expectations" $ do
       let expectations = [ yHasComposition, yHasGuards, xHasGuards ]
@@ -29,11 +29,12 @@ spec = do
       let expectations = [ xHasNotGuards ]
 
       runExpectations expectations sampleSubmission `shouldBe` [
-        ExpectationResult xHasHotGuards True ]
+        ExpectationResult xHasNotGuards True ]
 
 
     it "evals parameterized expectations" $ do
-      let expectations = [ xHasUsageOfM ]
+      let expectations = [ xHasUsageOfM, xHasUsageOfG ]
 
       runExpectations expectations sampleSubmission `shouldBe` [
-        ExpectationResult xHasUsageOfM True ]
+        ExpectationResult xHasUsageOfM True,
+        ExpectationResult xHasUsageOfG False ]
