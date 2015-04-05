@@ -18,8 +18,11 @@ compile "HasLambda"          = hasLambda
 compile "HasGuards"          = hasGuards
 compile "HasComposition"     = hasComposition
 compile "HasBinding"         = hasBinding
-compile "HasDirectRecursion" = hasBinding
-compile "HasComprehension"   = hasBinding
+compile "HasDirectRecursion" = hasDirectRecursion
+compile "HasComprehension"   = hasComprehension
+compile "HasIf"              = hasIf
+compile "HasConditional"     = hasConditional
+
 
 remove xs = drop (length xs)
 
