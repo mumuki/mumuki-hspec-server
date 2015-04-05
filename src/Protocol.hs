@@ -1,6 +1,10 @@
 {-# LANGUAGE DeriveGeneric #-}
 
-module Protocol (Response(..), Request(..), Expectation(..), ExpectationResult(..)) where
+module Protocol (
+  Response(..),
+  Request(..),
+  Expectation(..),
+  ExpectationResult(..)) where
 
 import           GHC.Generics
 import           Data.Aeson

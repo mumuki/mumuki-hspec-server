@@ -2,20 +2,16 @@ module ExpectationsRunner where
 
 import qualified Protocol as P
 import           Language.Haskell.Inspector
-import           Language.Haskell.Inspector.Smell as S
 import           Data.List (isInfixOf)
 
 runExpectations :: [P.Expectation] ->  String -> [P.ExpectationResult]
-runExpectations es content = map run es ++ smellsResults
+runExpectations es content = map run es
   where
     run e = P.ExpectationResult e (compileAndEval e)
 
     compileAndEval (P.Expectation binding inspection) = (compile inspection) binding content
 
-    smellsResults = filter isFailed . map run $ smellInspections
-
-smellInspections :: [Inspection]
-smellInspections = map negateInspection [hasRedundantIf, hasRedundantLambda, hasRedudantBooleanComparison]
+    failed = not . P.result
 
 compile :: String -> Inspection
 compile x | "Not:" `isInfixOf`      x = negateInspection $ compile (remove "Not:" x)
@@ -30,6 +26,3 @@ compile "HasIf"              = hasIf
 compile "HasConditional"     = hasConditional
 
 remove xs = drop (length xs)
-
-negateInspection :: Inspection -> Inspection
-negateInspection f code = not . f code
