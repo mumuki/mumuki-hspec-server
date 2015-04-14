@@ -11,6 +11,8 @@ runExpectations es content = map run es
 
     compileAndEval (P.Expectation binding inspection) = (compile inspection) binding content
 
+    failed = not . P.result
+
 compile :: String -> Inspection
 compile x | "Not:" `isInfixOf`      x = negateInspection $ compile (remove "Not:" x)
 compile x | "HasUsage:" `isInfixOf` x = hasUsage (remove "HasUsage:" x)
@@ -25,8 +27,4 @@ compile "HasConditional"     = hasConditional
 compile "HasTypeDeclaration" = hasTypeDeclaration
 compile "HasTypeSignature"   = hasTypeSignature
 
-
 remove xs = drop (length xs)
-
-negateInspection :: Inspection -> Inspection
-negateInspection f code = not . f code
