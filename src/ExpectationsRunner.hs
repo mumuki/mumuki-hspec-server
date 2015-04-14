@@ -22,6 +22,8 @@ compile "HasDirectRecursion" = hasDirectRecursion
 compile "HasComprehension"   = hasComprehension
 compile "HasIf"              = hasIf
 compile "HasConditional"     = hasConditional
+compile "HasTypeDeclaration" = hasTypeDeclaration
+compile "HasTypeSignature"   = hasTypeSignature
 
 
 remove xs = drop (length xs)
