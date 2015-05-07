@@ -1,6 +1,6 @@
 module SmellsDetectorRunner (runSmellsDetection) where
 
-import           Protocol
+import qualified Protocol as P
 import           Language.Haskell.Explorer (Code)
 import           Language.Haskell.Inspector
 import           Language.Haskell.Inspector.Combiner
@@ -8,10 +8,10 @@ import           Language.Haskell.Inspector.Smell as S
 
 type NamedSmell = (String, Inspection)
 
-runSmellsDetection :: Code -> [ExpectationResult]
+runSmellsDetection :: Code -> [P.ExpectationResult]
 runSmellsDetection code = concatMap (`runSingleSmellDetection` code) smells
 
-runSingleSmellDetection :: NamedSmell -> Code -> [ExpectationResult]
+runSingleSmellDetection :: NamedSmell -> Code -> [P.ExpectationResult]
 runSingleSmellDetection (name, inspection) code =
   map (smellyBindingToResult name) $ detect inspection code
 
@@ -23,4 +23,4 @@ smells = [
   ("HasRedundantGuards", hasRedundantGuards)]
 
 smellyBindingToResult smellName binding =
-  ExpectationResult (Expectation binding ("Not:" ++ smellName)) False
+  P.ExpectationResult (P.Expectation binding ("Not:" ++ smellName)) False
