@@ -16,15 +16,15 @@ runExpectations es content = map run es
 
 compile :: String -> Inspection
 compile x | "Not:" `isInfixOf`      x = negative $ compile (remove "Not:" x)
-compile x | "HasUsage:" `isInfixOf` x = hasUsage (remove "HasUsage:" x)
-compile "HasLambda"          = hasLambda
-compile "HasGuards"          = hasGuards
-compile "HasComposition"     = hasComposition
-compile "HasBinding"         = hasBinding
-compile "HasDirectRecursion" = hasDirectRecursion
-compile "HasComprehension"   = hasComprehension
-compile "HasIf"              = hasIf
-compile "HasConditional"     = hasConditional
+compile x | "HasUsage:" `isInfixOf` x = transitive $ hasUsage (remove "HasUsage:" x)
+compile "HasLambda"          = transitive hasLambda
+compile "HasGuards"          = transitive hasGuards
+compile "HasComposition"     = transitive hasComposition
+compile "HasBinding"         = transitive hasBinding
+compile "HasDirectRecursion" = transitive hasDirectRecursion
+compile "HasComprehension"   = transitive hasComprehension
+compile "HasIf"              = transitive hasIf
+compile "HasConditional"     = transitive hasConditional
 compile "HasTypeDeclaration" = hasTypeDeclaration
 compile "HasTypeSignature"   = hasTypeSignature
 compile _                    = \_ _ -> False
