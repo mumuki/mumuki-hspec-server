@@ -1,8 +1,9 @@
 module SmellsDetectorRunner (runSmellsDetection) where
 
 import           Protocol
+import           Language.Haskell.Explorer (Code)
 import           Language.Haskell.Inspector
-import           Language.Haskell.Detector
+import           Language.Haskell.Inspector.Combiner
 import           Language.Haskell.Inspector.Smell as S
 
 type NamedSmell = (String, Inspection)

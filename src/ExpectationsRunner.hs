@@ -2,6 +2,7 @@ module ExpectationsRunner where
 
 import qualified Protocol as P
 import           Language.Haskell.Inspector
+import           Language.Haskell.Inspector.Combiner
 import           Data.List (isInfixOf)
 
 runExpectations :: [P.Expectation] ->  String -> [P.ExpectationResult]
@@ -14,7 +15,7 @@ runExpectations es content = map run es
     failed = not . P.result
 
 compile :: String -> Inspection
-compile x | "Not:" `isInfixOf`      x = negateInspection $ compile (remove "Not:" x)
+compile x | "Not:" `isInfixOf`      x = negative $ compile (remove "Not:" x)
 compile x | "HasUsage:" `isInfixOf` x = hasUsage (remove "HasUsage:" x)
 compile "HasLambda"          = hasLambda
 compile "HasGuards"          = hasGuards
