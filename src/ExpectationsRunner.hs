@@ -27,5 +27,6 @@ compile "HasIf"              = hasIf
 compile "HasConditional"     = hasConditional
 compile "HasTypeDeclaration" = hasTypeDeclaration
 compile "HasTypeSignature"   = hasTypeSignature
+compile _                    = \_ _ -> False
 
 remove xs = drop (length xs)
