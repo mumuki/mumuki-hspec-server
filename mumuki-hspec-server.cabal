@@ -30,7 +30,7 @@ Executable mumuki-hspec-server
     process                   >= 1.1   && < 1.4,
     hspec                     >= 2     && < 3,
     async                     >= 2     && < 3,
-    hs-inspector              >= 0.5.1 && < 0.6.0
+    hs-inspector              >= 0.5.2 && < 0.6.0
 
   ghc-options:
     -threaded
@@ -71,7 +71,7 @@ library
     process                   >= 1.1   && < 1.4,
     hspec                     >= 2     && < 3,
     async                     >= 2     && < 3,
-    hs-inspector              >= 0.5.1 && < 0.6.0
+    hs-inspector              >= 0.5.2 && < 0.6.0
 
   build-tools:
     happy
@@ -100,7 +100,7 @@ test-suite spec
     process                   >= 1.1   && < 1.4,
     hspec                     >= 2     && < 3,
     async                     >= 2     && < 3,
-    hs-inspector              >= 0.5.1 && < 0.6.0,
+    hs-inspector              >= 0.5.2 && < 0.6.0,
     mumuki-hspec-server
 
   build-tools:
