@@ -20,7 +20,8 @@ smells = [
   ("HasRedundantIf", hasRedundantIf),
   ("HasRedundantLambda", hasRedundantLambda),
   ("HasRedundantBooleanComparison", hasRedundantBooleanComparison),
-  ("HasRedundantGuards", hasRedundantGuards)]
+  ("HasRedundantGuards", hasRedundantGuards),
+  ("HasRedundantParameter", hasRedundantParameter)]
 
 smellyBindingToResult smellName binding =
   P.ExpectationResult (P.Expectation binding ("Not:" ++ smellName)) False
