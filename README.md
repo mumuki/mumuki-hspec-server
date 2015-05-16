@@ -1,11 +1,11 @@
 mumuki-hspec-server
 ===================
 
-[![Build Status](https://travis-ci.org/uqbar-project/mumuki-hspec-server.svg)](https://travis-ci.org/uqbar-project/mumuki-hspec-server)
+[![Build Status](https://travis-ci.org/mumuki/mumuki-hspec-server.svg)](https://travis-ci.org/mumuki/mumuki-hspec-server)
 
-Snap server for running GHC tests, as part of [Mumuki](http://github.com/uqbar-project/mumuki) infrastructure
+Snap server for running GHC tests, as part of [Mumuki](http://github.com/mumuki/mumuki) infrastructure
 
-Please check the [Mumuki Wiki](https://github.com/uqbar-project/mumuki/wiki) for more information.
+Please check the [Mumuki Wiki](https://github.com/mumuki/mumuki-platform/wiki) for more information.
 
 # Building & running from source
 
