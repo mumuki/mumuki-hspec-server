@@ -16,7 +16,7 @@ site = method POST (
 
 testHandler :: Snap ()
 testHandler = do
-    setTimeout 6
+    setTimeout 8
     Just request <-  decode <$> readRequestBody 102400
     result  <- liftIO . TestServer.process $ request
     writeLBS . encode $ result

@@ -24,7 +24,7 @@ runTest content = do
 
 
 runCommand :: String -> IO (Maybe (ExitCode, String, String))
-runCommand path = limited 3000000 command
+runCommand path = limited 4500000 command
     where command = readProcessWithExitCode "./limit" ([ "1024", "4", "runhaskell" ] ++ Config.runhaskellArgs ++ [ path ]) "";
 
 exitCode :: ExitCode -> String
