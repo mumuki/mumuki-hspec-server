@@ -6,6 +6,7 @@ import           Data.List (isInfixOf)
 
 sampleOkCompilation = "import Test.Hspec\n\
                        \import Test.QuickCheck\n\
+                       \import Test.Hspec.JsonFormatter\n\
                        \x = True\n\
                        \main :: IO ()\n\
                        \main = hspec $ do\n\
@@ -15,6 +16,7 @@ sampleOkCompilation = "import Test.Hspec\n\
 
 sampleNotOkCompilation = "import Test.Hspec\n\
                         \import Test.QuickCheck\n\
+                        \import Test.Hspec.JsonFormatter\n\
                         \x = False\n\
                         \main :: IO ()\n\
                         \main = hspec $ do\n\

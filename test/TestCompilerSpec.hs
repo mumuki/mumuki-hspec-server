@@ -10,6 +10,7 @@ sampleTest = "describe \"x\" $ do\n\
               \    x `shouldBe` True"
 
 expectedCompilation = "import Test.Hspec\n\
+                       \import Test.Hspec.JsonFormatter\n\
                        \import Test.QuickCheck\n\
                        \x = True\n\n\
                        \main :: IO ()\n\
