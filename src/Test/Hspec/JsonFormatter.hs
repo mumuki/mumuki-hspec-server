@@ -1,4 +1,4 @@
-module JsonFormatter where
+module Test.Hspec.JsonFormatter where
 
 import Test.Hspec.Formatters
 import Data.List
