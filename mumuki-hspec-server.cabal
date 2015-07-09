@@ -52,6 +52,7 @@ library
       src
       config/test
   exposed-modules:
+      Config
       TestRunner
       TestCompiler
       SmellsDetectorRunner
