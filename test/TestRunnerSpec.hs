@@ -7,9 +7,10 @@ import           Data.List (isInfixOf)
 sampleOkCompilation = "import Test.Hspec\n\
                        \import Test.QuickCheck\n\
                        \import Test.Hspec.JsonFormatter\n\
+                       \import Test.Hspec.Runner (hspecWith, defaultConfig, Config (configFormatter))\n\
                        \x = True\n\
                        \main :: IO ()\n\
-                       \main = hspec $ do\n\
+                       \main = hspecWith defaultConfig {configFormatter = Just jsonFormatter} $ do\n\
                        \describe \"x\" $ do\n\
                        \  it \"should be True\" $ do\n\
                        \    x `shouldBe` True"
@@ -17,9 +18,10 @@ sampleOkCompilation = "import Test.Hspec\n\
 sampleNotOkCompilation = "import Test.Hspec\n\
                         \import Test.QuickCheck\n\
                         \import Test.Hspec.JsonFormatter\n\
+                        \import Test.Hspec.Runner (hspecWith, defaultConfig, Config (configFormatter))\n\
                         \x = False\n\
                         \main :: IO ()\n\
-                        \main = hspec $ do\n\
+                        \main = hspecWith defaultConfig {configFormatter = Just jsonFormatter} $ do\n\
                         \describe \"x\" $ do\n\
                         \  it \"should be True\" $ do\n\
                         \    x `shouldBe` True"
