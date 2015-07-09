@@ -6,22 +6,22 @@ import           Data.List (isInfixOf)
 
 sampleOkCompilation = "import Test.Hspec\n\
                        \import Test.QuickCheck\n\
-                       \import Test.Hspec.JsonFormatter\n\
+                       \import Test.Hspec.Formatters.Structured\n\
                        \import Test.Hspec.Runner (hspecWith, defaultConfig, Config (configFormatter))\n\
                        \x = True\n\
                        \main :: IO ()\n\
-                       \main = hspecWith defaultConfig {configFormatter = Just jsonFormatter} $ do\n\
+                       \main = hspecWith defaultConfig {configFormatter = Just structured} $ do\n\
                        \describe \"x\" $ do\n\
                        \  it \"should be True\" $ do\n\
                        \    x `shouldBe` True"
 
 sampleNotOkCompilation = "import Test.Hspec\n\
                         \import Test.QuickCheck\n\
-                        \import Test.Hspec.JsonFormatter\n\
+                        \import Test.Hspec.Formatters.Structured\n\
                         \import Test.Hspec.Runner (hspecWith, defaultConfig, Config (configFormatter))\n\
                         \x = False\n\
                         \main :: IO ()\n\
-                        \main = hspecWith defaultConfig {configFormatter = Just jsonFormatter} $ do\n\
+                        \main = hspecWith defaultConfig {configFormatter = Just structured} $ do\n\
                         \describe \"x\" $ do\n\
                         \  it \"should be True\" $ do\n\
                         \    x `shouldBe` True"
@@ -38,7 +38,7 @@ spec = do
 
       it "outputs proper message" $ do
         (_, out) <- result
-        out `shouldSatisfy` (isInfixOf "1 example, 0 failures")
+        out `shouldSatisfy` (isInfixOf "1 exmple, 0 failures")
 
     it "fails when test is not ok" $ do
       (fmap fst. runTest) sampleNotOkCompilation `shouldReturn` "failed"

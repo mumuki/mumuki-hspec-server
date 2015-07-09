@@ -58,7 +58,7 @@ library
       SmellsDetectorRunner
       ExpectationsRunner
       Protocol
-      Test.Hspec.JsonFormatter
+      Test.Hspec.Formatters.Structured
   build-depends:
     base                      >= 4     && < 5,
     bytestring                >= 0.9.1 && < 0.11,
