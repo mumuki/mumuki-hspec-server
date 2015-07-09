@@ -26,6 +26,15 @@ sampleNotOkCompilation = "import Test.Hspec\n\
                         \  it \"should be True\" $ do\n\
                         \    x `shouldBe` True"
 
+sampleNotCompilingCompilation = "import Test.Hspec\n\
+                                \import Test.QuickCheck\n\
+                                \import Test.Hspec.Formatters.Structured\n\
+                                \import Test.Hspec.Runner (hspecWith, defaultConfig, Config (configFormatter))\n\
+                                \main :: IO ()\n\
+                                \main = hspecWith defaultConfig {configFormatter = Just structured} $ do\n\
+                                \describe \"x\" $ do\n\
+                                \  it \"should be True\" $ do\n\
+                                \    x `shouldBe` True"
 spec :: Spec
 spec = do
   describe "TestRunnerSpec.runTest" $ do
@@ -40,6 +49,23 @@ spec = do
         (_, out) <- result
         out `shouldSatisfy` (isInfixOf "1 exmple, 0 failures")
 
-    it "fails when test is not ok" $ do
-      (fmap fst. runTest) sampleNotOkCompilation `shouldReturn` "failed"
+    context "when test is not ok" $ do
+      let result = runTest sampleNotOkCompilation
+
+      it "fails" $ do
+        (fmap fst result) `shouldReturn` "failed"
+
+      it "outputs proper message" $ do
+        (_, out) <- result
+        out `shouldSatisfy` (isInfixOf "1 exmple, 0 failures")
+
+    context "when test does not compile" $ do
+      let result = runTest sampleNotCompilingCompilation
+
+      it "fails" $ do
+        (fmap fst result) `shouldReturn` "failed"
+
+      it "outputs proper message" $ do
+        (_, out) <- result
+        out `shouldSatisfy` (isInfixOf "1 exmple, 0 failures")
 

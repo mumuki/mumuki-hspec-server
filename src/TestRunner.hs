@@ -1,6 +1,7 @@
 module TestRunner (runTest) where
 
 import qualified Config
+import qualified Protocol as P
 import           System.Process (readProcessWithExitCode)
 import           System.Exit
 import           System.IO (hClose, hPutStr)
@@ -9,19 +10,28 @@ import           System.IO.Temp (openTempFile)
 import           System.Directory (getTemporaryDirectory)
 import           Control.Concurrent
 import           Control.Concurrent.Async (race)
+import           Text.Read (readMaybe)
+import           Data.Maybe (isJust)
 
-runTest :: String -> IO (String, String)
+type TestResults   = [P.TestResult]
+type TestError = (String, String)
+
+runTest :: String -> IO (Either TestError TestResults)
 runTest content = do
   base <- getTemporaryDirectory
   (path, fileHandle) <- openTempFile base "compilation"
   hPutStr fileHandle content
   hClose fileHandle
-  result <- runCommand path
+  resultMaybe <- runCommand path
   removeFile path
-  case result of
-    Just (exit, out, err) -> return (exitCode exit , out ++ err)
-    Nothing -> return ("failed", "Test took more than 3 seconds. Test was aborted")
+  case resultMaybe of
+    Just result -> return $ readResult result
+    Nothing -> return $ Left ("failed", "Test took more than 3 seconds. Test was aborted")
 
+readResult :: (ExitCode, String, String) -> Either TestError TestResults
+readResult (exit, out, err)
+    | Just testResults <- readMaybe out = (Right) . map (\(Just (title,status,result)) -> (P.TestResult title status result)) . filter isJust $ testResults
+    | otherwise = Left (exitCode exit , out ++ err)
 
 runCommand :: String -> IO (Maybe (ExitCode, String, String))
 runCommand path = limited 4500000 command

@@ -4,6 +4,7 @@ module Protocol (
   Response(..),
   Request(..),
   Expectation(..),
+  TestResult(..),
   ExpectationResult(..)) where
 
 import           GHC.Generics
@@ -19,6 +20,12 @@ data ExpectationResult = ExpectationResult {
   result :: Bool
 } deriving (Show, Eq, Generic)
 
+data TestResult = TestResult {
+  title  :: String,
+  status :: String,
+  result0 :: String
+} deriving (Show, Eq, Generic)
+
 data Request = Request {
   content  :: String,
   test     :: String,
@@ -29,6 +36,7 @@ data Request = Request {
 data Response =  Response {
   exit  :: String,
   out   :: String,
+  testResults :: [TestResult],
   expectationResults :: [ExpectationResult]
 } deriving (Show, Generic)
 
@@ -38,3 +46,4 @@ instance FromJSON Expectation
 instance ToJSON Response
 instance ToJSON Expectation
 instance ToJSON ExpectationResult
+instance ToJSON TestResult

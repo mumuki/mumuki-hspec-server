@@ -9,10 +9,13 @@ import qualified SmellsDetectorRunner
 
 process :: P.Request -> IO P.Response
 process r = do
-            (exit, out) <- TestRunner.runTest . compile $ r
             let expectationResults = ExpectationsRunner.runExpectations (P.expectations r)  (P.content r)
             let smellsResuls = SmellsDetectorRunner.runSmellsDetection (P.content r)
-            return $ P.Response exit out (expectationResults ++ smellsResuls)
+            let totalExpectationResults = expectationResults ++ smellsResuls
+            result <- TestRunner.runTest . compile $ r
+            case result of
+              Left (exit, out) -> return $ P.Response exit out [] totalExpectationResults
+              Right testResults -> return $ P.Response "" "" testResults totalExpectationResults
 
 compile :: P.Request -> String
 compile request = TestCompiler.compile (P.test request) (P.extra request) (P.content request)
