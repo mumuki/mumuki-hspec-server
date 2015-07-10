@@ -58,6 +58,8 @@ library
       SmellsDetectorRunner
       ExpectationsRunner
       Protocol
+      Protocol.Test
+      Protocol.Expectation
       Test.Hspec.Formatters.Structured
   build-depends:
     base                      >= 4     && < 5,

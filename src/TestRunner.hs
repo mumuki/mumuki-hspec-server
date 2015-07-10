@@ -1,7 +1,7 @@
 module TestRunner (runTest) where
 
 import qualified Config
-import qualified Protocol as P
+import qualified Protocol.Test as P
 import           System.Process (readProcessWithExitCode)
 import           System.Exit
 import           System.IO (hClose, hPutStr)
