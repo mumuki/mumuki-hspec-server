@@ -33,8 +33,8 @@ writeTempFile content = do
 
 readCommandResults :: CommandResults -> Either TestError TestResults
 readCommandResults (Just result) = readResults result
-readCommandResults Nothing       = Left ("failed", message)
-    where message = "Test took more than 3 seconds. Test was aborted"
+readCommandResults Nothing       = Left ("aborted", message)
+    where message = "Test took more than 4.5 seconds. Test was aborted"
 
 runCommand :: String -> IO CommandResults
 runCommand path = limited 4500000 command
