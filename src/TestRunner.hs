@@ -15,13 +15,18 @@ type CommandResults = Maybe (ExitCode, String, String)
 
 runTest :: String -> IO (Either TestError TestResults)
 runTest content = do
+  path <- writeTempFile content
+  commandResults <- runCommand path
+  removeFile path
+  return.readCommandResults $ commandResults
+
+writeTempFile :: String -> IO FilePath
+writeTempFile content = do
   base <- getTemporaryDirectory
   (path, fileHandle) <- openTempFile base "compilation"
   hPutStr fileHandle content
   hClose fileHandle
-  commandResults <- runCommand path
-  removeFile path
-  return.readCommandResults $ commandResults
+  return path
 
 readCommandResults :: CommandResults -> Either TestError TestResults
 readCommandResults (Just result) = readResults result
