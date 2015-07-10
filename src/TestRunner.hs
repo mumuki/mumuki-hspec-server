@@ -1,4 +1,7 @@
-module TestRunner (runTest) where
+module TestRunner (
+  runTest,
+  TestResults,
+  TestError) where
 
 import qualified Config
 import           System.Process (readProcessWithExitCode)

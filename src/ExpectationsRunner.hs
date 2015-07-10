@@ -1,4 +1,5 @@
-module ExpectationsRunner where
+module ExpectationsRunner (
+  runExpectations) where
 
 import qualified Protocol.Expectation as P
 import           Language.Haskell.Inspector

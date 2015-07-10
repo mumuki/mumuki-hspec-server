@@ -2,7 +2,8 @@
 
 module Protocol (
   Response(..),
-  Request(..)) where
+  Request(..),
+  emptyResponse) where
 
 import           Protocol.Expectation
 import           Protocol.Test
@@ -25,3 +26,6 @@ data Response =  Response {
 
 instance FromJSON Request
 instance ToJSON Response
+
+emptyResponse :: Response
+emptyResponse = Response "" "" [] []
