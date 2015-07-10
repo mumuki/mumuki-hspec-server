@@ -54,6 +54,7 @@ library
   exposed-modules:
       Config
       TestRunner
+      TestRunner.ResultsReader
       TestCompiler
       SmellsDetectorRunner
       ExpectationsRunner
