@@ -11,19 +11,24 @@ import           Control.Concurrent
 import           Control.Concurrent.Async (race)
 import           TestRunner.ResultsReader
 
+type CommandResults = Maybe (ExitCode, String, String)
+
 runTest :: String -> IO (Either TestError TestResults)
 runTest content = do
   base <- getTemporaryDirectory
   (path, fileHandle) <- openTempFile base "compilation"
   hPutStr fileHandle content
   hClose fileHandle
-  resultMaybe <- runCommand path
+  commandResults <- runCommand path
   removeFile path
-  case resultMaybe of
-    Just result -> return $ readResults result
-    Nothing -> return $ Left ("failed", "Test took more than 3 seconds. Test was aborted")
+  return.readCommandResults $ commandResults
 
-runCommand :: String -> IO (Maybe (ExitCode, String, String))
+readCommandResults :: CommandResults -> Either TestError TestResults
+readCommandResults (Just result) = readResults result
+readCommandResults Nothing       = Left ("failed", message)
+    where message = "Test took more than 3 seconds. Test was aborted"
+
+runCommand :: String -> IO CommandResults
 runCommand path = limited 4500000 command
     where command = readProcessWithExitCode "./limit" ([ "1024", "4", "runhaskell" ] ++ Config.runhaskellArgs ++ [ path ]) "";
 
