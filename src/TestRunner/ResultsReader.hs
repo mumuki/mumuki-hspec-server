@@ -24,5 +24,5 @@ toTestResults = map (toTestResult.fromJust) . filter isJust
 toTestResult (title, status, result) = P.TestResult title status result
 
 exitCode :: ExitCode -> String
-exitCode (ExitFailure _) = "failed"
+exitCode (ExitFailure _) = "errored"
 exitCode _               = "passed"

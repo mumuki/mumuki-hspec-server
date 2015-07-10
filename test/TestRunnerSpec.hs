@@ -57,7 +57,7 @@ spec = do
 
       it "fails" $ do
         Left (exit, _) <- result
-        exit `shouldBe` "failed"
+        exit `shouldBe` "errored"
 
       it "outputs proper message" $ do
         Left (_, out) <- result
