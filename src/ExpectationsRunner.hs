@@ -27,6 +27,6 @@ compile "HasIf"              = transitive hasIf
 compile "HasConditional"     = transitive hasConditional
 compile "HasTypeDeclaration" = hasTypeDeclaration
 compile "HasTypeSignature"   = hasTypeSignature
-compile _                    = \_ _ -> False
+compile _                    = \_ _ -> True
 
 remove xs = drop (length xs)
