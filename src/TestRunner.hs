@@ -1,4 +1,7 @@
-module TestRunner (runTest) where
+module TestRunner (
+  runTest,
+  TestResults,
+  TestError) where
 
 import qualified Config
 import           System.Process (readProcessWithExitCode)
@@ -9,27 +12,33 @@ import           System.IO.Temp (openTempFile)
 import           System.Directory (getTemporaryDirectory)
 import           Control.Concurrent
 import           Control.Concurrent.Async (race)
+import           TestRunner.ResultsReader
 
-runTest :: String -> IO (String, String)
+type CommandResults = Maybe (ExitCode, String, String)
+
+runTest :: String -> IO (Either TestError TestResults)
 runTest content = do
+  path <- writeTempFile content
+  commandResults <- runCommand path
+  removeFile path
+  return.readCommandResults $ commandResults
+
+writeTempFile :: String -> IO FilePath
+writeTempFile content = do
   base <- getTemporaryDirectory
   (path, fileHandle) <- openTempFile base "compilation"
   hPutStr fileHandle content
   hClose fileHandle
-  result <- runCommand path
-  removeFile path
-  case result of
-    Just (exit, out, err) -> return (exitCode exit , out ++ err)
-    Nothing -> return ("failed", "Test took more than 3 seconds. Test was aborted")
+  return path
 
+readCommandResults :: CommandResults -> Either TestError TestResults
+readCommandResults (Just result) = readResults result
+readCommandResults Nothing       = Left ("aborted", message)
+    where message = "Test took more than 4.5 seconds. Test was aborted"
 
-runCommand :: String -> IO (Maybe (ExitCode, String, String))
+runCommand :: String -> IO CommandResults
 runCommand path = limited 4500000 command
     where command = readProcessWithExitCode "./limit" ([ "1024", "4", "runhaskell" ] ++ Config.runhaskellArgs ++ [ path ]) "";
-
-exitCode :: ExitCode -> String
-exitCode (ExitFailure _) = "failed"
-exitCode _               = "passed"
 
 limited :: Int -> IO a -> IO (Maybe a)
 limited n f = fmap get $ race f (threadDelay n)

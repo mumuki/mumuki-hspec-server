@@ -2,7 +2,7 @@ module SmellsDetectorRunnerSpec (spec) where
 
 import           Test.Hspec
 import           SmellsDetectorRunner
-import           Protocol
+import           Protocol.Expectation
 
 sampleSubmission = "x = m x\n\
                    \y x = if True then True else False\n\

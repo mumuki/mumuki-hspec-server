@@ -1,6 +1,6 @@
 module SmellsDetectorRunner (runSmellsDetection) where
 
-import qualified Protocol as P
+import qualified Protocol.Expectation as P
 import           Language.Haskell.Explorer (Code)
 import           Language.Haskell.Inspector
 import           Language.Haskell.Inspector.Combiner

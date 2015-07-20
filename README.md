@@ -35,9 +35,13 @@ cabal test
 cabal run
 ```
 
-**Notice**: you may want to change the ```prod/config/Config``` file:
+**Notice**: you may want to change the following files:
+
+* ```prod/config/Config``` (for running the runner locally)
+* ```prod/config/Test```  (for testing the runner locally)
+
+with local configuration
 
 ```haskell
---runhaskellArgs = ["-package-db=/app/.cabal-sandbox/x86_64-linux-ghc-7.8.3-packages.conf.d"]
-runhaskellArgs = []
+runhaskellArgs = ["-package-db=./.cabal-sandbox/x86_64-linux-ghc-7.6.3-packages.conf.d"]
 ```

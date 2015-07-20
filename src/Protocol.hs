@@ -3,21 +3,12 @@
 module Protocol (
   Response(..),
   Request(..),
-  Expectation(..),
-  ExpectationResult(..)) where
+  emptyResponse) where
 
+import           Protocol.Expectation
+import           Protocol.Test
 import           GHC.Generics
 import           Data.Aeson
-
-data Expectation = Expectation {
-  binding :: String,
-  inspection :: String
-} deriving (Show, Eq, Generic)
-
-data ExpectationResult = ExpectationResult {
-  expectation :: Expectation,
-  result :: Bool
-} deriving (Show, Eq, Generic)
 
 data Request = Request {
   content  :: String,
@@ -29,12 +20,12 @@ data Request = Request {
 data Response =  Response {
   exit  :: String,
   out   :: String,
+  testResults :: [TestResult],
   expectationResults :: [ExpectationResult]
 } deriving (Show, Generic)
 
 instance FromJSON Request
-instance FromJSON Expectation
-
 instance ToJSON Response
-instance ToJSON Expectation
-instance ToJSON ExpectationResult
+
+emptyResponse :: Response
+emptyResponse = Response "" "" [] []
