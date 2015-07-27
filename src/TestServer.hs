@@ -18,7 +18,7 @@ process r
 run :: Request -> IO Response
 run r = do
   baseResponse <- (fmap toResponse) . runTest . compileRequest $ r
-  return $ baseResponse { expectationResults = totalExpectationResults }
+  return baseResponse { expectationResults = totalExpectationResults }
 
   where expectationResults = runExpectations (expectations r) (content r)
         smellsResuls = runSmellsDetection (content r)
