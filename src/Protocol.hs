@@ -3,6 +3,7 @@
 module Protocol (
   Response(..),
   Request(..),
+  emptyRequest,
   emptyResponse) where
 
 import           Protocol.Expectation
@@ -22,10 +23,13 @@ data Response =  Response {
   out   :: String,
   testResults :: [TestResult],
   expectationResults :: [ExpectationResult]
-} deriving (Show, Generic)
+} deriving (Eq, Show, Generic)
 
 instance FromJSON Request
 instance ToJSON Response
+
+emptyRequest :: Request
+emptyRequest = Request "" "" "" []
 
 emptyResponse :: Response
 emptyResponse = Response "" "" [] []
