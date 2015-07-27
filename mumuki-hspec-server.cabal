@@ -58,6 +58,7 @@ library
       TestCompiler
       SmellsDetectorRunner
       ExpectationsRunner
+      RequestValidator.Fuse
       Protocol
       Protocol.Test
       Protocol.Expectation

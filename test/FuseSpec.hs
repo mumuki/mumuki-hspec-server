@@ -1,8 +1,9 @@
 module FuseSpec (spec) where
 
-import Fuse
+import           Test.Hspec
+import           RequestValidator.Fuse
 
-describe "Fuse" $ do
+spec = describe "Fuse" $ do
   it "should admit non malicious code" $ do
     isMalicious "x = 4" `shouldBe` False
 
