@@ -1,5 +1,12 @@
 language: haskell
 install:
-  - cabal install --only-dependencies --enable-tests --force-reinstalls
+- cabal install --only-dependencies --enable-tests --force-reinstalls
 script:
-  -  cabal configure --enable-tests && cabal build && ./dist/build/spec/spec
+- cabal configure --enable-tests && cabal build && ./dist/build/spec/spec
+deploy:
+  provider: heroku
+  api_key:
+    secure: B+l87a8TGNgGQP2b0TJlUUek7LsP3zg/FppNfQagOki9tu6ue0EOhPGBhFnQu7CYUdiqD7wBVT+I/1VrBUNSo2VDrWLeF6Mm7R6phW6+MtTygyzlnjM98aVVOb3+CdAdf+jMMHt4lt4ntQqVim3tam6b2Buq72qc3ybod6gWsxg=
+  app: mumuki-hspec-server
+  on:
+    repo: mumuki/mumuki-hspec-server
