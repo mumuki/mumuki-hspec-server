@@ -17,9 +17,9 @@ runTest :: String -> IO (Interpretation TestResults)
 runTest = interpret readResults
 
 readResults :: CommandExit -> Interpretation TestResults
-readResults (exit, out, err)
+readResults exit@(_, out, _)
     | Just testResults <- readMaybe out = Ok (toTestResults testResults)
-    | otherwise = Error (toStatus exit, out ++ err)
+    | otherwise = Error . toRaw $ exit
 
 toTestResults :: [Maybe (String, String, String)] -> TestResults
 toTestResults = map (toTestResult.fromJust) . filter isJust

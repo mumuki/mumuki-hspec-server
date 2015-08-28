@@ -20,7 +20,7 @@ type CommandExit = (ExitCode, String, String)
 
 type CommandExitInterpreter a = CommandExit -> Interpretation a
 
-data Interpretation a = Ok a | Error (Status, String) deriving (Show, Eq)
+data Interpretation a = Ok a | Error Raw deriving (Show, Eq)
 
 interpret :: CommandExitInterpreter a -> String -> IO (Interpretation a)
 interpret f code = do

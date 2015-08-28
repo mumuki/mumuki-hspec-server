@@ -1,8 +1,11 @@
 module Common(
-  Status(..)
+  Status(..),
+  Raw
 ) where
 
 data Status = Passed | Aborted | Errored | Failed deriving Eq
+
+type Raw = (Status, String)
 
 instance Show Status where
   show Passed = "passed"

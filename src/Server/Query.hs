@@ -17,8 +17,8 @@ compileRequest (Request query content extra) = unlines [
                         "main = putStr.show $ " ++ query ]
 
 
-runQuery :: String -> IO (Status, String)
-runQuery =  fmap extract.interpret (\(exit, out, err) -> Ok (toStatus exit, out ++ err))
+runQuery :: String -> IO Raw
+runQuery =  fmap extract.interpret (Ok . toRaw)
   where extract (Error x) = x
         extract (Ok    x) = x
 
