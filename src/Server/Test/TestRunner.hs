@@ -1,46 +1,31 @@
+{-# LANGUAGE PatternGuards #-}
+
 module Server.Test.TestRunner (
   runTest,
   TestResults,
-  TestError) where
+  RunnerResult(..)) where
 
-import qualified Config
-import           System.Process (readProcessWithExitCode)
+import qualified Protocol.Test.Test as P
+import           Text.Read (readMaybe)
+import           Data.Maybe (isJust, fromJust)
 import           System.Exit
-import           System.IO (hClose, hPutStr)
-import           System.Directory (removeFile)
-import           System.IO.Temp (openTempFile)
-import           System.Directory (getTemporaryDirectory)
-import           Control.Concurrent
-import           Control.Concurrent.Async (race)
-import           Server.Test.TestRunner.ResultsReader
+import           Server.CodeRunner
 
-type CommandResults = Maybe (ExitCode, String, String)
+type TestResults   = [P.TestResult]
 
-runTest :: String -> IO (Either TestError TestResults)
-runTest content = do
-  path <- writeTempFile content
-  commandResults <- runCommand path
-  removeFile path
-  return.readCommandResults $ commandResults
+runTest :: String -> IO (RunnerResult TestResults)
+runTest = runCode readResults
 
-writeTempFile :: String -> IO FilePath
-writeTempFile content = do
-  base <- getTemporaryDirectory
-  (path, fileHandle) <- openTempFile base "compilation"
-  hPutStr fileHandle content
-  hClose fileHandle
-  return path
+readResults :: CommandExit -> RunnerResult TestResults
+readResults (exit, out, err)
+    | Just testResults <- readMaybe out = Ok (toTestResults testResults)
+    | otherwise = Error (exitCode exit , out ++ err)
 
-readCommandResults :: CommandResults -> Either TestError TestResults
-readCommandResults (Just result) = readResults result
-readCommandResults Nothing       = Left ("aborted", message)
-    where message = "Test took more than 4.5 seconds. Test was aborted"
+toTestResults :: [Maybe (String, String, String)] -> TestResults
+toTestResults = map (toTestResult.fromJust) . filter isJust
 
-runCommand :: String -> IO CommandResults
-runCommand path = limited 4500000 command
-    where command = readProcessWithExitCode "./limit" ([ "1024", "4", "runhaskell" ] ++ Config.runhaskellArgs ++ [ path ]) "";
+toTestResult (title, status, result) = P.TestResult title status result
 
-limited :: Int -> IO a -> IO (Maybe a)
-limited n f = fmap get $ race f (threadDelay n)
-  where get (Left a) = Just a
-        get _        = Nothing
+exitCode :: ExitCode -> String
+exitCode (ExitFailure _) = "errored"
+exitCode _               = "passed"

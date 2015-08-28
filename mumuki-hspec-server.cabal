@@ -60,7 +60,6 @@ library
       Protocol.Test.Expectation
       Server.Test
       Server.Test.TestRunner
-      Server.Test.TestRunner.ResultsReader
       Server.Test.TestCompiler
       Server.Test.SmellsDetectorRunner
       Server.Test.ExpectationsRunner

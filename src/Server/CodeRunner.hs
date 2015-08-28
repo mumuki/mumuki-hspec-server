@@ -1,4 +1,8 @@
-module Server.CodeRunner where
+module Server.CodeRunner(
+  runCode,
+  CommandExit,
+  CommandReader,
+  RunnerResult(..)) where
 
 import qualified Config
 
@@ -15,7 +19,7 @@ type CommandExit = (ExitCode, String, String)
 
 type CommandReader a = CommandExit -> RunnerResult a
 
-data RunnerResult a = Ok a | Error (String, String)
+data RunnerResult a = Ok a | Error (String, String) deriving (Show, Eq)
 
 runCode :: CommandReader a -> String -> IO (RunnerResult a)
 runCode f code = do
