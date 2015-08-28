@@ -5,12 +5,13 @@ import           Protocol.Query
 import           Server.Query
 
 processExit = fmap exit.process
+processOut =  fmap out.process
 
 spec = describe "QueryServer" $ do
-  let okQuery = "foo 1"
+  let okQuery = "foo 3"
 
-  let okCode        = "foo = bar"
-  let okCodeOnExtra = "foo = (*2)"
+  let okCodeOnExtra   = "foo = bar"
+  let okCode          = "foo = (*2)"
 
   let extraCode     = "bar = (+1)"
 
@@ -20,3 +21,5 @@ spec = describe "QueryServer" $ do
   it "should pass on ok request" $ do
     processExit (emptyRequest { content = okCode, query = okQuery }) `shouldReturn` "passed"
 
+  it "should have result on ok request" $ do
+    processOut (emptyRequest { content = okCode, query = okQuery }) `shouldReturn` "6"

@@ -9,7 +9,12 @@ process = fmap toResponse.runQuery.compileRequest
 
 
 compileRequest :: Request -> String
-compileRequest (Request query content extra) = content ++ extra ++ "main = putStr.show $ " ++ query
+compileRequest (Request query content extra) = unlines [
+                        content,
+                        extra,
+                        "main :: IO ()",
+                        "main = putStr.show $ " ++ query ]
+
 
 runQuery :: String -> IO (String, String)
 runQuery =  fmap extract.runCode (\(exit, out, err) -> Ok (toStatus exit, out ++ err))
