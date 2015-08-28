@@ -1,6 +1,7 @@
 module TestRunnerSpec (spec) where
 
 import           Test.Hspec
+import           Common
 import           Protocol.Test.Test
 import           Server.Test.TestRunner
 import           Data.List (isInfixOf)
@@ -57,7 +58,7 @@ spec = do
 
       it "fails" $ do
         Error (exit, _) <- result
-        exit `shouldBe` "errored"
+        exit `shouldBe` Errored
 
       it "outputs proper message" $ do
         Error (_, out) <- result

@@ -6,6 +6,7 @@ module Interpreter (
 
 import qualified Config
 
+import           Common
 import           System.Process (readProcessWithExitCode)
 import           System.Exit
 import           System.IO (hClose, hPutStr)
@@ -19,7 +20,7 @@ type CommandExit = (ExitCode, String, String)
 
 type CommandReader a = CommandExit -> RunnerResult a
 
-data RunnerResult a = Ok a | Error (String, String) deriving (Show, Eq)
+data RunnerResult a = Ok a | Error (Status, String) deriving (Show, Eq)
 
 runCode :: CommandReader a -> String -> IO (RunnerResult a)
 runCode f code = do
@@ -38,7 +39,7 @@ writeTempFile code = do
 
 readCommandExit :: CommandReader a -> Maybe CommandExit -> RunnerResult a
 readCommandExit f (Just result) = f result
-readCommandExit _ Nothing       = Error ("aborted", message)
+readCommandExit _ Nothing       = Error (Aborted, message)
     where message = "Command took more than 4.5 seconds. Command was aborted"
 
 runCommand :: String -> IO (Maybe CommandExit)

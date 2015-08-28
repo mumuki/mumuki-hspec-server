@@ -54,6 +54,7 @@ library
       config/test
   exposed-modules:
       Config
+      Common
       Protocol.Query
       Protocol.Test
       Protocol.Test.Test

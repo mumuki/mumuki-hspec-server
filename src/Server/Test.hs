@@ -2,6 +2,7 @@
 
 module Server.Test (process) where
 
+import           Common
 import           Protocol.Test
 import           Server.Test.TestRunner
 import           Server.Test.TestCompiler
@@ -11,7 +12,7 @@ import           Server.Test.RequestValidator
 
 process :: Request -> IO Response
 process r
-  | (Just message) <- validateRequest r = return emptyResponse { exit = "aborted", out =  message }
+  | (Just message) <- validateRequest r = return $ toResponse (Error (Aborted, message))
   | otherwise = run r
 
 run :: Request -> IO Response
@@ -24,7 +25,7 @@ run r = do
         totalExpectationResults = expectationResults ++ smellsResuls
 
 toResponse :: RunnerResult TestResults -> Response
-toResponse (Error (e, o)) = emptyResponse { exit = e, out = o }
+toResponse (Error (e, o)) = emptyResponse { exit = show e, out = o }
 toResponse (Ok trs)   = emptyResponse { testResults = trs }
 
 compileRequest :: Request -> String

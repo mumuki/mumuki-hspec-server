@@ -19,7 +19,7 @@ runTest = runCode readResults
 readResults :: CommandExit -> RunnerResult TestResults
 readResults (exit, out, err)
     | Just testResults <- readMaybe out = Ok (toTestResults testResults)
-    | otherwise = Error (toStatus exit , out ++ err)
+    | otherwise = Error (toStatus exit, out ++ err)
 
 toTestResults :: [Maybe (String, String, String)] -> TestResults
 toTestResults = map (toTestResult.fromJust) . filter isJust
