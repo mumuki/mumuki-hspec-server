@@ -1,7 +1,7 @@
 module Server.Query (process) where
 
 import Protocol.Query
-import Server.CodeRunner
+import Interpreter
 import Interpreter.Exit
 
 process :: Request -> IO Response

@@ -66,7 +66,7 @@ library
       Server.Test.RequestValidator
       Server.Test.RequestValidator.CodeFuse
       Server.Query
-      Server.CodeRunner
+      Interpreter
       Interpreter.Exit
   build-depends:
     base                      >= 4     && < 5,

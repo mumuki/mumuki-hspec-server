@@ -1,4 +1,4 @@
-module Server.CodeRunner(
+module Interpreter (
   runCode,
   CommandExit,
   CommandReader,

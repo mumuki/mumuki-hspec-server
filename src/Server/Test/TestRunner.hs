@@ -8,7 +8,7 @@ module Server.Test.TestRunner (
 import qualified Protocol.Test.Test as P
 import           Text.Read (readMaybe)
 import           Data.Maybe (isJust, fromJust)
-import           Server.CodeRunner
+import           Interpreter
 import           Interpreter.Exit
 
 type TestResults   = [P.TestResult]
