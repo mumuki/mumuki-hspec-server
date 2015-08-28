@@ -1,4 +1,4 @@
-module ExpectationsRunner (
+module Server.Test.ExpectationsRunner (
   runExpectations) where
 
 import qualified Protocol.Test.Expectation as P

@@ -1,7 +1,7 @@
 module SmellsDetectorRunnerSpec (spec) where
 
 import           Test.Hspec
-import           SmellsDetectorRunner
+import           Server.Test.SmellsDetectorRunner
 import           Protocol.Test.Expectation
 
 sampleSubmission = "x = m x\n\

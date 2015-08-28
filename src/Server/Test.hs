@@ -1,13 +1,13 @@
 {-# LANGUAGE PatternGuards #-}
 
-module TestServer (process) where
+module Server.Test (process) where
 
 import           Protocol.Test
-import           TestRunner
-import           TestCompiler
-import           ExpectationsRunner
-import           SmellsDetectorRunner
-import           RequestValidator
+import           Server.Test.TestRunner
+import           Server.Test.TestCompiler
+import           Server.Test.ExpectationsRunner
+import           Server.Test.SmellsDetectorRunner
+import           Server.Test.RequestValidator
 
 
 process :: Request -> IO Response

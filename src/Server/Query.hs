@@ -1,4 +1,4 @@
-module QueryServer (process) where
+module Server.Query (process) where
 
 import Protocol.Query
 

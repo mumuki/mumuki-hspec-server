@@ -1,4 +1,4 @@
-module SmellsDetectorRunner (runSmellsDetection) where
+module Server.Test.SmellsDetectorRunner (runSmellsDetection) where
 
 import qualified Protocol.Test.Expectation as P
 import           Language.Haskell.Explorer (Code)

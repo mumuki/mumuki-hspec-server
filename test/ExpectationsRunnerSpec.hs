@@ -1,7 +1,7 @@
 module ExpectationsRunnerSpec (spec) where
 
 import           Test.Hspec
-import           ExpectationsRunner (runExpectations)
+import           Server.Test.ExpectationsRunner (runExpectations)
 import           Protocol.Test.Expectation
 
 sampleSubmission = "x = m x\n\

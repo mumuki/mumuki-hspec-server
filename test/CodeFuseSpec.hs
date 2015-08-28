@@ -1,7 +1,7 @@
 module CodeFuseSpec (spec) where
 
 import           Test.Hspec
-import           RequestValidator.CodeFuse
+import           Server.Test.RequestValidator.CodeFuse
 
 spec = describe "Fuse" $ do
   it "should admit non malicious code" $ do

@@ -1,6 +1,6 @@
 {-# LANGUAGE PatternGuards #-}
 
-module TestRunner.ResultsReader (
+module Server.Test.TestRunner.ResultsReader (
   readResults,
   TestResults,
   TestError) where

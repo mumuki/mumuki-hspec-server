@@ -4,7 +4,7 @@ import           Test.Hspec
 import           Protocol.Test
 import           Protocol.Test.Expectation
 import           Protocol.Test.Test
-import           TestServer
+import           Server.Test
 
 spec = describe "TestServer" $ do
   let test = "it \"x\" $ do\n\

@@ -7,7 +7,7 @@ import           Data.Aeson
 import           Control.Applicative
 import           Snap.Core
 import           Control.Monad.Trans (liftIO)
-import           TestServer
+import           Server.Test as TestServer
 
 site :: Snap ()
 site = method POST (

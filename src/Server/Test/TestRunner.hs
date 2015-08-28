@@ -1,4 +1,4 @@
-module TestRunner (
+module Server.Test.TestRunner (
   runTest,
   TestResults,
   TestError) where
@@ -12,7 +12,7 @@ import           System.IO.Temp (openTempFile)
 import           System.Directory (getTemporaryDirectory)
 import           Control.Concurrent
 import           Control.Concurrent.Async (race)
-import           TestRunner.ResultsReader
+import           Server.Test.TestRunner.ResultsReader
 
 type CommandResults = Maybe (ExitCode, String, String)
 

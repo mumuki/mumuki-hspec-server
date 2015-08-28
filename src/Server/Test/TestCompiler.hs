@@ -1,4 +1,4 @@
-module TestCompiler (compile) where
+module Server.Test.TestCompiler (compile) where
 
   compile :: String -> String -> String -> String
   compile testSrc extraSrc contentSrc =

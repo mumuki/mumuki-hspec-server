@@ -1,7 +1,7 @@
 module TestCompilerSpec (spec) where
 
 import           Test.Hspec
-import           TestCompiler (compile)
+import           Server.Test.TestCompiler (compile)
 
 sampleContent = "x = True"
 

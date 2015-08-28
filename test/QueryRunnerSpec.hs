@@ -2,7 +2,7 @@ module QueryRunnerSpec (spec) where
 
 import           Test.Hspec
 import           Protocol.Query
-import           QueryServer
+import           Server.Query
 
 processExit = fmap exit.process
 
