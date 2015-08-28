@@ -12,17 +12,9 @@ import           Server.Query as QueryServer
 
 site :: Snap ()
 site = method POST (
-          route [ ("test", testHandler),
-                  ("query", queryHandler) ]) <|>
+          route [ ("test", handler TestServer.process),
+                  ("query", handler QueryServer.process) ]) <|>
        method GET  (redirect Config.mumukiUrl)
-
-
-testHandler :: Snap ()
-testHandler = handler TestServer.process
-
-queryHandler :: Snap ()
-queryHandler = handler QueryServer.process
-
 
 handler f = do
     setTimeout 8
