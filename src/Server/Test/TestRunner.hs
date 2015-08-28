@@ -8,8 +8,8 @@ module Server.Test.TestRunner (
 import qualified Protocol.Test.Test as P
 import           Text.Read (readMaybe)
 import           Data.Maybe (isJust, fromJust)
-import           System.Exit
 import           Server.CodeRunner
+import           Interpreter.Exit
 
 type TestResults   = [P.TestResult]
 
@@ -19,13 +19,10 @@ runTest = runCode readResults
 readResults :: CommandExit -> RunnerResult TestResults
 readResults (exit, out, err)
     | Just testResults <- readMaybe out = Ok (toTestResults testResults)
-    | otherwise = Error (exitCode exit , out ++ err)
+    | otherwise = Error (toStatus exit , out ++ err)
 
 toTestResults :: [Maybe (String, String, String)] -> TestResults
 toTestResults = map (toTestResult.fromJust) . filter isJust
 
 toTestResult (title, status, result) = P.TestResult title status result
 
-exitCode :: ExitCode -> String
-exitCode (ExitFailure _) = "errored"
-exitCode _               = "passed"
