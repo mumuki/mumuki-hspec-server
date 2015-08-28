@@ -1,4 +1,4 @@
-module RequestValidator.CodeFuse (isMalicious) where
+module Server.Test.RequestValidator.CodeFuse (isMalicious) where
 
 import Data.List (isInfixOf)
 

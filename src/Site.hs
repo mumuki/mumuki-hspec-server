@@ -7,17 +7,17 @@ import           Data.Aeson
 import           Control.Applicative
 import           Snap.Core
 import           Control.Monad.Trans (liftIO)
-import           TestServer
+import           Server.Test as TestServer
+import           Server.Query as QueryServer
 
 site :: Snap ()
 site = method POST (
-          route [ ("test", testHandler) ]) <|>
+          route [ ("test", handler TestServer.process),
+                  ("query", handler QueryServer.process) ]) <|>
        method GET  (redirect Config.mumukiUrl)
 
-testHandler :: Snap ()
-testHandler = do
+handler f = do
     setTimeout 8
     Just request <-  decode <$> readRequestBody 102400
-    result  <- liftIO . TestServer.process $ request
+    result  <- liftIO . f $ request
     writeLBS . encode $ result
-

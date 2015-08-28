@@ -54,17 +54,21 @@ library
       config/test
   exposed-modules:
       Config
-      TestRunner
-      TestRunner.ResultsReader
-      TestCompiler
-      SmellsDetectorRunner
-      ExpectationsRunner
-      RequestValidator
-      RequestValidator.CodeFuse
-      Protocol
+      Common
+      Protocol.Query
       Protocol.Test
-      Protocol.Expectation
-      TestServer
+      Protocol.Test.Test
+      Protocol.Test.Expectation
+      Server.Test
+      Server.Test.TestRunner
+      Server.Test.TestCompiler
+      Server.Test.SmellsDetectorRunner
+      Server.Test.ExpectationsRunner
+      Server.Test.RequestValidator
+      Server.Test.RequestValidator.CodeFuse
+      Server.Query
+      Interpreter
+      Interpreter.Exit
   build-depends:
     base                      >= 4     && < 5,
     bytestring                >= 0.9.1 && < 0.11,

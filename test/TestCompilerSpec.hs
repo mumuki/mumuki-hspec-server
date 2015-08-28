@@ -1,7 +1,7 @@
 module TestCompilerSpec (spec) where
 
 import           Test.Hspec
-import           TestCompiler (compile)
+import           Server.Test.TestCompiler (compile)
 
 sampleContent = "x = True"
 
@@ -18,7 +18,7 @@ expectedCompilation = "import Test.Hspec\n\
                        \main = hspecWith defaultConfig {configFormatter = Just structured} $ do\n\
                        \describe \"x\" $ do\n\
                        \  it \"should be True\" $ do\n\
-                       \    x `shouldBe` True"
+                       \    x `shouldBe` True\n"
 spec :: Spec
 spec = do
   describe "TestCompiler.compile" $ do

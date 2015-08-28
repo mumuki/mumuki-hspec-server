@@ -1,18 +1,18 @@
 {-# LANGUAGE PatternGuards #-}
 
-module TestServer (process) where
+module Server.Test (process) where
 
-import           Protocol
-import           TestRunner
-import           TestCompiler
-import           ExpectationsRunner
-import           SmellsDetectorRunner
-import           RequestValidator
-
+import           Common
+import           Protocol.Test
+import           Server.Test.TestRunner
+import           Server.Test.TestCompiler
+import           Server.Test.ExpectationsRunner
+import           Server.Test.SmellsDetectorRunner
+import           Server.Test.RequestValidator
 
 process :: Request -> IO Response
 process r
-  | (Just message) <- validateRequest r = return emptyResponse { exit = "aborted", out =  message }
+  | (Just message) <- validateRequest r = return $ toResponse (Error (Aborted, message))
   | otherwise = run r
 
 run :: Request -> IO Response
@@ -24,9 +24,9 @@ run r = do
         smellsResuls = runSmellsDetection (content r)
         totalExpectationResults = expectationResults ++ smellsResuls
 
-toResponse :: Either TestError TestResults -> Response
-toResponse (Left (e, o)) = emptyResponse { exit = e, out = o }
-toResponse (Right trs)   = emptyResponse { testResults = trs }
+toResponse :: Interpretation TestResults -> Response
+toResponse (Error (e, o)) = emptyResponse { exit = show e, out = o }
+toResponse (Ok trs)   = emptyResponse { testResults = trs }
 
 compileRequest :: Request -> String
 compileRequest request = compile (test request) (extra request) (content request)

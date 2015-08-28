@@ -1,8 +1,9 @@
 module TestRunnerSpec (spec) where
 
 import           Test.Hspec
-import           Protocol.Test
-import           TestRunner (runTest)
+import           Common
+import           Protocol.Test.Test
+import           Server.Test.TestRunner
 import           Data.List (isInfixOf)
 
 sampleOkCompilation = "import Test.Hspec\n\
@@ -44,22 +45,22 @@ spec = do
       let result = runTest sampleOkCompilation
 
       it "answers structured data" $ do
-        result `shouldReturn` Right [TestResult "x should be True" "passed" ""]
+        result `shouldReturn` Ok [TestResult "x should be True" "passed" ""]
 
     context "when test is not ok" $ do
       let result = runTest sampleNotOkCompilation
 
       it "answers structured data" $ do
-        result `shouldReturn` Right [TestResult "x should be True" "failed" "expected: True\n but got: False"]
+        result `shouldReturn` Ok [TestResult "x should be True" "failed" "expected: True\n but got: False"]
 
     context "when test does not compile" $ do
       let result = runTest sampleNotCompilingCompilation
 
       it "fails" $ do
-        Left (exit, _) <- result
-        exit `shouldBe` "errored"
+        Error (exit, _) <- result
+        exit `shouldBe` Errored
 
       it "outputs proper message" $ do
-        Left (_, out) <- result
+        Error (_, out) <- result
         out `shouldSatisfy` (isInfixOf "Not in scope: `x'")
 

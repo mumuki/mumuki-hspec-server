@@ -1,6 +1,6 @@
 {-# LANGUAGE DeriveGeneric #-}
 
-module Protocol.Expectation (
+module Protocol.Test.Expectation (
   Expectation(..),
   ExpectationResult(..)) where
 
