@@ -65,6 +65,8 @@ library
       Protocol.Test
       Protocol.Expectation
       TestServer
+      QueryServer
+      QueryProtocol
   build-depends:
     base                      >= 4     && < 5,
     bytestring                >= 0.9.1 && < 0.11,
