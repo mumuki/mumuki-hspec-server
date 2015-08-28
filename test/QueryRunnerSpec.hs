@@ -23,3 +23,6 @@ spec = describe "QueryServer" $ do
 
   it "should have result on ok request" $ do
     processOut (emptyRequest { content = okCode, query = okQuery }) `shouldReturn` "6"
+
+  it "should have result on ok request with query dependent on extra" $ do
+    processOut (emptyRequest { content = okCodeOnExtra, query = okQuery, extra = extraCode }) `shouldReturn` "4"
