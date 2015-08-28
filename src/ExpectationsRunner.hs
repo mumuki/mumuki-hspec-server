@@ -1,7 +1,7 @@
 module ExpectationsRunner (
   runExpectations) where
 
-import qualified Protocol.Expectation as P
+import qualified Protocol.Test.Expectation as P
 import           Language.Haskell.Inspector
 import           Language.Haskell.Inspector.Combiner
 import           Data.List (isInfixOf)

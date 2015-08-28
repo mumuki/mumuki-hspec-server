@@ -1,7 +1,7 @@
 module RequestValidator (validateRequest) where
 
 import RequestValidator.CodeFuse
-import Protocol (Request(..))
+import Protocol.Test (Request(..))
 import Control.Monad (msum)
 
 validateRequest ::  Request -> Maybe String

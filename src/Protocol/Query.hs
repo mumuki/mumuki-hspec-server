@@ -1,6 +1,6 @@
 {-# LANGUAGE DeriveGeneric #-}
 
-module QueryProtocol (
+module Protocol.Query (
   emptyRequest,
   emptyResponse,
   Response(..),

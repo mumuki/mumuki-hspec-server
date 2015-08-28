@@ -1,7 +1,7 @@
 module TestRunnerSpec (spec) where
 
 import           Test.Hspec
-import           Protocol.Test
+import           Protocol.Test.Test
 import           TestRunner (runTest)
 import           Data.List (isInfixOf)
 

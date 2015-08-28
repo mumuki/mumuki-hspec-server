@@ -2,7 +2,7 @@ module ExpectationsRunnerSpec (spec) where
 
 import           Test.Hspec
 import           ExpectationsRunner (runExpectations)
-import           Protocol.Expectation
+import           Protocol.Test.Expectation
 
 sampleSubmission = "x = m x\n\
                    \y x | x == 1  = z . k $ m\n\

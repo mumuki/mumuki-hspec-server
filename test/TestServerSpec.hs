@@ -1,17 +1,17 @@
 module TestServerSpec (spec) where
 
 import           Test.Hspec
-import           Protocol
-import           Protocol.Expectation
 import           Protocol.Test
+import           Protocol.Test.Expectation
+import           Protocol.Test.Test
 import           TestServer
 
 spec = describe "TestServer" $ do
   let test = "it \"x\" $ do\n\
-              \   x `shouldBe` 1" 
+              \   x `shouldBe` 1"
 
   let maliciusCode = "import System.IO.Unsafe\nx = 1"
-  
+
   let okCode       = "x = 1"
 
   it "should errored on empty request" $ do
@@ -30,9 +30,9 @@ spec = describe "TestServer" $ do
     process request `shouldReturn` response
 
   it "should run expectations" $ do
-    let request = emptyRequest { 
-                        content = okCode, 
-                        test = test, 
+    let request = emptyRequest {
+                        content = okCode,
+                        test = test,
                         expectations = [Expectation "x" "HasBinding"]}
 
     fmap expectationResults (process request) `shouldReturn` [ExpectationResult (Expectation "x" "HasBinding") True]

@@ -5,7 +5,7 @@ module TestRunner.ResultsReader (
   TestResults,
   TestError) where
 
-import qualified Protocol.Test as P
+import qualified Protocol.Test.Test as P
 import           Text.Read (readMaybe)
 import           Data.Maybe (isJust, fromJust)
 import           System.Exit

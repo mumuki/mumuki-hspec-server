@@ -1,6 +1,6 @@
 module QueryServer (process) where
 
-import QueryProtocol
+import Protocol.Query
 
 process :: Request -> IO Response
 process = fmap toResponse.runQuery.compileRequest

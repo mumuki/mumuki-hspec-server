@@ -2,7 +2,7 @@
 
 module TestServer (process) where
 
-import           Protocol
+import           Protocol.Test
 import           TestRunner
 import           TestCompiler
 import           ExpectationsRunner

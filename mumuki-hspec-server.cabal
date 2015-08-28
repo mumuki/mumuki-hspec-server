@@ -61,12 +61,12 @@ library
       ExpectationsRunner
       RequestValidator
       RequestValidator.CodeFuse
-      Protocol
+      Protocol.Query
       Protocol.Test
-      Protocol.Expectation
+      Protocol.Test.Test
+      Protocol.Test.Expectation
       TestServer
       QueryServer
-      QueryProtocol
   build-depends:
     base                      >= 4     && < 5,
     bytestring                >= 0.9.1 && < 0.11,
