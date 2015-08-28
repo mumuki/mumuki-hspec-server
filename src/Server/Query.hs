@@ -18,7 +18,7 @@ compileRequest (Request query content extra) = unlines [
 
 
 runQuery :: String -> IO (Status, String)
-runQuery =  fmap extract.runCode (\(exit, out, err) -> Ok (toStatus exit, out ++ err))
+runQuery =  fmap extract.interpret (\(exit, out, err) -> Ok (toStatus exit, out ++ err))
   where extract (Error x) = x
         extract (Ok    x) = x
 

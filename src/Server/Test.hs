@@ -24,7 +24,7 @@ run r = do
         smellsResuls = runSmellsDetection (content r)
         totalExpectationResults = expectationResults ++ smellsResuls
 
-toResponse :: RunnerResult TestResults -> Response
+toResponse :: Interpretation TestResults -> Response
 toResponse (Error (e, o)) = emptyResponse { exit = show e, out = o }
 toResponse (Ok trs)   = emptyResponse { testResults = trs }
 

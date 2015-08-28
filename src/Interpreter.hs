@@ -1,8 +1,8 @@
 module Interpreter (
-  runCode,
+  interpret,
   CommandExit,
-  CommandReader,
-  RunnerResult(..)) where
+  CommandExitInterpreter,
+  Interpretation(..)) where
 
 import qualified Config
 
@@ -18,12 +18,12 @@ import           Control.Concurrent.Async (race)
 
 type CommandExit = (ExitCode, String, String)
 
-type CommandReader a = CommandExit -> RunnerResult a
+type CommandExitInterpreter a = CommandExit -> Interpretation a
 
-data RunnerResult a = Ok a | Error (Status, String) deriving (Show, Eq)
+data Interpretation a = Ok a | Error (Status, String) deriving (Show, Eq)
 
-runCode :: CommandReader a -> String -> IO (RunnerResult a)
-runCode f code = do
+interpret :: CommandExitInterpreter a -> String -> IO (Interpretation a)
+interpret f code = do
   path <- writeTempFile code
   commandExit <- runCommand path
   removeFile path
@@ -37,7 +37,7 @@ writeTempFile code = do
   hClose fileHandle
   return path
 
-readCommandExit :: CommandReader a -> Maybe CommandExit -> RunnerResult a
+readCommandExit :: CommandExitInterpreter a -> Maybe CommandExit -> Interpretation a
 readCommandExit f (Just result) = f result
 readCommandExit _ Nothing       = Error (Aborted, message)
     where message = "Command took more than 4.5 seconds. Command was aborted"

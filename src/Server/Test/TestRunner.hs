@@ -3,7 +3,7 @@
 module Server.Test.TestRunner (
   runTest,
   TestResults,
-  RunnerResult(..)) where
+  Interpretation(..)) where
 
 import qualified Protocol.Test.Test as P
 import           Text.Read (readMaybe)
@@ -13,10 +13,10 @@ import           Interpreter.Exit
 
 type TestResults   = [P.TestResult]
 
-runTest :: String -> IO (RunnerResult TestResults)
-runTest = runCode readResults
+runTest :: String -> IO (Interpretation TestResults)
+runTest = interpret readResults
 
-readResults :: CommandExit -> RunnerResult TestResults
+readResults :: CommandExit -> Interpretation TestResults
 readResults (exit, out, err)
     | Just testResults <- readMaybe out = Ok (toTestResults testResults)
     | otherwise = Error (toStatus exit, out ++ err)
