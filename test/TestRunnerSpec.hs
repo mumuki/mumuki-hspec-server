@@ -17,6 +17,18 @@ sampleOkCompilation = "import Test.Hspec\n\
                        \  it \"should be True\" $ do\n\
                        \    x `shouldBe` True"
 
+sampleOkWithEscapedStringsCompilation = "import Test.Hspec\n\
+                       \import Test.QuickCheck\n\
+                       \import Test.Hspec.Formatters.Structured\n\
+                       \import Test.Hspec.Runner (hspecWith, defaultConfig, Config (configFormatter))\n\
+                       \x = \"hello\"\n\
+                       \main :: IO ()\n\
+                       \main = hspecWith defaultConfig {configFormatter = Just structured} $ do\n\
+                       \describe \"x\" $ do\n\
+                       \  it \"should be \\\"hello\\\"\" $ do\n\
+                       \    x `shouldBe` \"hello\""
+
+
 sampleNotOkCompilation = "import Test.Hspec\n\
                         \import Test.QuickCheck\n\
                         \import Test.Hspec.Formatters.Structured\n\
@@ -46,6 +58,12 @@ spec = do
 
       it "answers structured data" $ do
         result `shouldReturn` Ok [TestResult "x should be True" "passed" ""]
+
+    context "when test is ok with escaped strings" $ do
+      let result = runTest sampleOkWithEscapedStringsCompilation
+
+      it "answers structured data" $ do
+        result `shouldReturn` Ok [TestResult "x should be \"hello\"" "passed" ""]
 
     context "when test is not ok" $ do
       let result = runTest sampleNotOkCompilation
