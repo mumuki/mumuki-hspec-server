@@ -9,7 +9,8 @@ sampleTest = "describe \"x\" $ do\n\
               \  it \"should be True\" $ do\n\
               \    x `shouldBe` True"
 
-expectedCompilation = "import Test.Hspec\n\
+expectedCompilation =  "{-# OPTIONS_GHC -fdefer-type-errors #-}\n\
+                       \import Test.Hspec\n\
                        \import Test.Hspec.Formatters.Structured\n\
                        \import Test.Hspec.Runner (hspecWith, defaultConfig, Config (configFormatter))\n\
                        \import Test.QuickCheck\n\
