@@ -6,7 +6,8 @@ import           Protocol.Test.Test
 import           Server.Test.TestRunner
 import           Data.List (isInfixOf)
 
-sampleOkCompilation = "import Test.Hspec\n\
+sampleOkCompilation = "{-# OPTIONS_GHC -fdefer-type-errors #-}\n\
+                       \import Test.Hspec\n\
                        \import Test.QuickCheck\n\
                        \import Test.Hspec.Formatters.Structured\n\
                        \import Test.Hspec.Runner (hspecWith, defaultConfig, Config (configFormatter))\n\
@@ -17,7 +18,47 @@ sampleOkCompilation = "import Test.Hspec\n\
                        \  it \"should be True\" $ do\n\
                        \    x `shouldBe` True"
 
-sampleOkWithEscapedStringsCompilation = "import Test.Hspec\n\
+sampleOkCompilationWithWarnings = "{-# OPTIONS_GHC -fdefer-type-errors #-}\n\
+                       \import Test.Hspec\n\
+                       \import Test.QuickCheck\n\
+                       \import Test.Hspec.Formatters.Structured\n\
+                       \import Test.Hspec.Runner (hspecWith, defaultConfig, Config (configFormatter))\n\
+                       \x = True\n\
+                       \foo x = True\n\
+                       \foo _ = False\n\
+                       \main :: IO ()\n\
+                       \main = hspecWith defaultConfig {configFormatter = Just structured} $ do\n\
+                       \describe \"x\" $ do\n\
+                       \  it \"should be True\" $ do\n\
+                       \    x `shouldBe` True"
+
+sampleNotOkCompilationWithTypeErrors = "{-# OPTIONS_GHC -fdefer-type-errors #-}\n\
+                       \import Test.Hspec\n\
+                       \import Test.QuickCheck\n\
+                       \import Test.Hspec.Formatters.Structured\n\
+                       \import Test.Hspec.Runner (hspecWith, defaultConfig, Config (configFormatter))\n\
+                       \foo x = x + True\n\
+                       \main :: IO ()\n\
+                       \main = hspecWith defaultConfig {configFormatter = Just structured} $ do\n\
+                       \describe \"foo\" $ do\n\
+                       \  it \"should be True\" $ do\n\
+                       \    foo 2 `shouldBe` True"
+
+sampleNotOkCompilationWithTypeErrorsInTest = "{-# OPTIONS_GHC -fdefer-type-errors #-}\n\
+                       \import Test.Hspec\n\
+                       \import Test.QuickCheck\n\
+                       \import Test.Hspec.Formatters.Structured\n\
+                       \import Test.Hspec.Runner (hspecWith, defaultConfig, Config (configFormatter))\n\
+                       \foo x = x + 2\n\
+                       \main :: IO ()\n\
+                       \main = hspecWith defaultConfig {configFormatter = Just structured} $ do\n\
+                       \describe \"foo\" $ do\n\
+                       \  it \"should be True\" $ do\n\
+                       \    foo 2 `shouldBe` True"
+
+
+sampleOkWithEscapedStringsCompilation = "{-# OPTIONS_GHC -fdefer-type-errors #-}\n\
+                       \import Test.Hspec\n\
                        \import Test.QuickCheck\n\
                        \import Test.Hspec.Formatters.Structured\n\
                        \import Test.Hspec.Runner (hspecWith, defaultConfig, Config (configFormatter))\n\
@@ -29,7 +70,8 @@ sampleOkWithEscapedStringsCompilation = "import Test.Hspec\n\
                        \    x `shouldBe` \"hello\""
 
 
-sampleNotOkCompilation = "import Test.Hspec\n\
+sampleNotOkCompilation = "{-# OPTIONS_GHC -fdefer-type-errors #-}\n\
+                        \import Test.Hspec\n\
                         \import Test.QuickCheck\n\
                         \import Test.Hspec.Formatters.Structured\n\
                         \import Test.Hspec.Runner (hspecWith, defaultConfig, Config (configFormatter))\n\
@@ -40,7 +82,8 @@ sampleNotOkCompilation = "import Test.Hspec\n\
                         \  it \"should be True\" $ do\n\
                         \    x `shouldBe` True"
 
-sampleNotCompilingCompilation = "import Test.Hspec\n\
+sampleNotCompilingCompilation = "{-# OPTIONS_GHC -fdefer-type-errors #-}\n\
+                                \import Test.Hspec\n\
                                 \import Test.QuickCheck\n\
                                 \import Test.Hspec.Formatters.Structured\n\
                                 \import Test.Hspec.Runner (hspecWith, defaultConfig, Config (configFormatter))\n\
@@ -59,6 +102,12 @@ spec = do
       it "answers structured data" $ do
         result `shouldReturn` Ok [TestResult "x should be True" "passed" ""]
 
+    context "when test is ok but has warnings" $ do
+      let result = runTest sampleOkCompilationWithWarnings
+
+      it "answers structured data" $ do
+        result `shouldReturn` Ok [TestResult "x should be True" "passed" ""]
+
     context "when test is ok with escaped strings" $ do
       let result = runTest sampleOkWithEscapedStringsCompilation
 
@@ -70,6 +119,20 @@ spec = do
 
       it "answers structured data" $ do
         result `shouldReturn` Ok [TestResult "x should be True" "failed" "expected: True\n but got: False"]
+
+    context "when test is not ok with type errors" $ do
+      let result = runTest sampleNotOkCompilationWithTypeErrors
+
+      it "answers structured data" $ do
+        Ok [TestResult _ "failed" message] <- result
+        message `shouldSatisfy` (isInfixOf "deferred type error")
+
+    context "when test is not ok with type errors in test" $ do
+      let result = runTest sampleNotOkCompilationWithTypeErrorsInTest
+
+      it "answers structured data" $ do
+        Ok [TestResult _ "failed" message] <- result
+        message `shouldSatisfy` (isInfixOf "deferred type error")
 
     context "when test does not compile" $ do
       let result = runTest sampleNotCompilingCompilation
