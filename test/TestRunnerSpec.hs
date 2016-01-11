@@ -10,7 +10,8 @@ withImports body = "{-# OPTIONS_GHC -fdefer-type-errors #-}\n\
                     \import Test.Hspec\n\
                     \import Test.QuickCheck\n\
                     \import Test.Hspec.Formatters.Structured\n\
-                    \import Test.Hspec.Runner (hspecWith, defaultConfig, Config (configFormatter))\n" ++ body
+                    \import Test.Hspec.Runner (hspecWith, defaultConfig, Config (configFormatter))\n\
+                    \import qualified Control.Exception as Exception\n" ++ body
 
 sampleOkCompilation = withImports "\
                        \x = True\n\
@@ -70,6 +71,14 @@ sampleNotCompilingCompilation = withImports "\
                        \describe \"x\" $ do\n\
                        \  it \"should be True\" $ do\n\
                        \    x `shouldBe` True"
+
+sampleExpectErrorCompilation = withImports "\
+                       \x = True\n\
+                       \main :: IO ()\n\
+                       \main = hspecWith defaultConfig {configFormatter = Just structured} $ do\n\
+                       \describe \"x\" $ do\n\
+                       \  it \"should fail\" $ do\n\
+                       \    Exception.evaluate (length x) `shouldThrow` anyErrorCall"
 spec :: Spec
 spec = do
   describe "TestRunnerSpec.runTest" $ do
@@ -122,4 +131,10 @@ spec = do
       it "outputs proper message" $ do
         Error (_, out) <- result
         out `shouldSatisfy` (isInfixOf "Not in scope: `x'")
+
+    context "when test should raise expected error" $ do
+      let result = runTest sampleExpectErrorCompilation
+
+      it "answers structured data" $ do
+        result `shouldReturn` Ok [TestResult "x should fail" "passed" ""]
 
