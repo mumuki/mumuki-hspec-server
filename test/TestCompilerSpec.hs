@@ -14,6 +14,7 @@ expectedCompilation =  "{-# OPTIONS_GHC -fdefer-type-errors #-}\n\
                        \import Test.Hspec.Formatters.Structured\n\
                        \import Test.Hspec.Runner (hspecWith, defaultConfig, Config (configFormatter))\n\
                        \import Test.QuickCheck\n\
+                       \import qualified Control.Exception as Exception\n\
                        \x = True\n\n\
                        \main :: IO ()\n\
                        \main = hspecWith defaultConfig {configFormatter = Just structured} $ do\n\
