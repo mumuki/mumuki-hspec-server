@@ -7,6 +7,7 @@ module Server.Test.TestCompiler (compile) where
      "import Test.Hspec.Formatters.Structured",
      "import Test.Hspec.Runner (hspecWith, defaultConfig, Config (configFormatter))",
      "import Test.QuickCheck",
+     "import qualified Control.Exception as Exception",
      contentSrc,
      extraSrc,
      "main :: IO ()",
