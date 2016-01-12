@@ -11,6 +11,7 @@ process = fmap toResponse.runQuery.compileRequest
 
 compileRequest :: Request -> String
 compileRequest (Request query content extra) = unlines [
+                        "import Text.Show.Functions",
                         content,
                         extra,
                         "main :: IO ()",

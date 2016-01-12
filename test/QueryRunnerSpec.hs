@@ -9,6 +9,7 @@ processOut =  fmap out.process
 
 spec = describe "QueryServer" $ do
   let okQuery = "foo 3"
+  let okShowFunction = "even"
 
   let okCodeOnExtra   = "foo = bar"
   let okCode          = "foo = (*2)"
@@ -26,3 +27,6 @@ spec = describe "QueryServer" $ do
 
   it "should have result on ok request with query dependent on extra" $ do
     processOut (emptyRequest { content = okCodeOnExtra, query = okQuery, extra = extraCode }) `shouldReturn` "4"
+
+  it "should pass avoiding show function error" $ do
+    processExit (emptyRequest { content = okCode, query = okShowFunction }) `shouldReturn` "passed"
