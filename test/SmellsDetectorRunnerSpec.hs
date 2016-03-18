@@ -15,5 +15,4 @@ spec = do
     it "detects bindings with smells" $ do
       runSmellsDetection sampleSubmission `shouldBe` [
         ExpectationResult (Expectation "y" "Not:HasRedundantIf")            False,
-        ExpectationResult (Expectation "z" "Not:HasRedundantLambda")        False,
-        ExpectationResult (Expectation "w" "Not:HasRedundantParameter")     False ]
+        ExpectationResult (Expectation "z" "Not:HasRedundantLambda")        False]
